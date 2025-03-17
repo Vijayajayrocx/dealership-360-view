@@ -1,4 +1,3 @@
-
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "@/components/ui/use-toast";
@@ -12,6 +11,13 @@ interface User {
   role: UserRole;
   dealershipName?: string;
   avatarUrl?: string;
+  zone?: string;
+  district?: string;
+  ssn?: string;
+  twoFactorEnabled?: boolean;
+  location?: string;
+  dealerAdmin?: string;
+  specialization?: string;
 }
 
 interface AuthContextValue {
@@ -31,10 +37,17 @@ const mockUsers = [
     id: "1",
     email: "dealer@example.com",
     password: "password",
-    name: "John Smith",
+    name: "Ramakrishnan N",
     role: "dealer" as UserRole,
-    dealershipName: "Smith Motors",
+    dealershipName: "Krishna Motors",
     avatarUrl: "https://i.pravatar.cc/150?u=dealer",
+    zone: "South",
+    district: "Chennai",
+    ssn: "XXX-XX-9876",
+    twoFactorEnabled: true,
+    location: "Chennai, Tamil Nadu",
+    dealerAdmin: "Suresh Kumar",
+    specialization: "Luxury Vehicles"
   },
   {
     id: "2",
