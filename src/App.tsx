@@ -8,6 +8,7 @@ import LoginPage from "./pages/LoginPage";
 import DashboardLayout from "./layouts/DashboardLayout";
 import DealerProfile from "./pages/DealerProfile";
 import SalesDashboard from "./pages/SalesDashboard";
+import ServiceDashboard from "./pages/ServiceDashboard";
 import Inventory from "./pages/Inventory";
 import OrderHistory from "./pages/OrderHistory";
 import Notifications from "./pages/Notifications";
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="/dashboard" element={<DashboardLayout />}>
               <Route index element={<SalesDashboard />} />
               <Route path="profile" element={<DealerProfile />} />
+              <Route path="service" element={<ServiceDashboard />} />
               <Route path="inventory" element={<Inventory />} />
               <Route path="orders" element={<OrderHistory />} />
               <Route path="contacts" element={<ContactBook />} />
