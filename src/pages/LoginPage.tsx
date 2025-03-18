@@ -1,128 +1,129 @@
 
-import { useState } from "react";
-import { Navigate } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { useAuth } from "@/contexts/AuthContext";
+import AlignmentMenu from "@/components/AlignmentMenu";
 
 const LoginPage = () => {
-  const { isAuthenticated, login, requiresTwoFactor, isLoading } = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [verificationCode, setVerificationCode] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
+  const { login } = useAuth();
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [error, setError] = React.useState("");
+  const [showAlignmentMenu, setShowAlignmentMenu] = React.useState(false);
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    
-    try {
-      if (requiresTwoFactor) {
-        await login(email, password, verificationCode);
-      } else {
-        await login(email, password);
-      }
-    } finally {
-      setIsSubmitting(false);
+    setError("");
+
+    if (!username || !password) {
+      setError("All fields are required");
+      return;
     }
+
+    // For demonstration purposes
+    login({
+      id: "1",
+      name: "Ramakrishnan N",
+      email: "ramakrishnan@example.com",
+      role: "dealer",
+      dealership: "Ford Authorized Dealership",
+      zone: "South",
+      district: "Chennai",
+      ssn: "XXX-XX-XXXX",
+      twoFactorEnabled: true,
+      location: "Chennai, Tamil Nadu",
+      admin: "Ramakrishnan N",
+      specialization: "Electric Vehicles"
+    });
+    
+    navigate("/dashboard");
   };
 
-  // If already authenticated, redirect to dashboard
-  if (isAuthenticated && !isLoading) {
-    return <Navigate to="/dashboard" replace />;
-  }
-
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-ds-primary-100 to-white p-4">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-ds-primary-800">DS360</h1>
-          <p className="text-ds-secondary-500 mt-2">Dealer Management System</p>
-        </div>
-
-        <Card className="shadow-lg border-ds-primary-100">
+    <div className="flex min-h-screen flex-col justify-center p-4 md:p-8">
+      <div className="mx-auto grid w-full max-w-[1200px] gap-8 md:grid-cols-2">
+        <Card className="w-full">
           <CardHeader>
-            <CardTitle>{requiresTwoFactor ? "Two-Factor Authentication" : "Sign In"}</CardTitle>
+            <CardTitle className="text-2xl">Dealer Dashboard</CardTitle>
             <CardDescription>
-              {requiresTwoFactor
-                ? "Please enter the verification code sent to your device"
-                : "Enter your credentials to access your account"}
+              Sign in to access your dealer dashboard
             </CardDescription>
           </CardHeader>
-          <form onSubmit={handleLogin}>
-            <CardContent className="space-y-4">
-              {!requiresTwoFactor ? (
-                <>
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="dealer@example.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                      autoComplete="email"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="password">Password</Label>
-                    <Input
-                      id="password"
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                      autoComplete="current-password"
-                    />
-                  </div>
-                </>
-              ) : (
-                <div className="space-y-2">
-                  <Label htmlFor="verificationCode">Verification Code</Label>
-                  <Input
-                    id="verificationCode"
-                    type="text"
-                    placeholder="123456"
-                    value={verificationCode}
-                    onChange={(e) => setVerificationCode(e.target.value)}
-                    required
-                    maxLength={6}
-                    className="text-center tracking-widest text-lg"
-                    autoFocus
-                  />
-                  <p className="text-xs text-ds-secondary-500 mt-2">
-                    For demo purposes, the verification code is: 123456
-                  </p>
-                </div>
-              )}
-            </CardContent>
-            <CardFooter>
-              <Button
-                type="submit"
-                className="w-full bg-ds-primary-600 hover:bg-ds-primary-700"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <span className="flex items-center">
-                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Processing...
-                  </span>
-                ) : requiresTwoFactor ? "Verify" : "Sign In"}
-              </Button>
-            </CardFooter>
-          </form>
+          <CardContent>
+            <form className="space-y-4" onSubmit={handleSubmit}>
+              <div className="space-y-2">
+                <label htmlFor="username" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                  Username or Email
+                </label>
+                <Input
+                  id="username"
+                  placeholder="Enter your username or email"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <label htmlFor="password" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                  Password
+                </label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+              {error && <p className="text-destructive text-sm">{error}</p>}
+              <Button className="w-full" type="submit">Sign In</Button>
+            </form>
+          </CardContent>
+          <CardFooter className="flex flex-col items-start gap-2">
+            <div className="text-sm text-muted-foreground">
+              <a href="#" className="underline underline-offset-4 hover:text-primary">
+                Forgot your password?
+              </a>
+            </div>
+            <Button 
+              variant="outline" 
+              className="w-full mt-4"
+              onClick={() => setShowAlignmentMenu(!showAlignmentMenu)}
+            >
+              {showAlignmentMenu ? "Hide" : "Show"} Alignment Menu
+            </Button>
+            {showAlignmentMenu && (
+              <div className="w-full mt-4">
+                <AlignmentMenu />
+              </div>
+            )}
+          </CardFooter>
         </Card>
-
-        <div className="mt-4 text-center text-sm text-ds-secondary-500">
-          <p>Demo credentials:</p>
-          <p>Dealer: dealer@example.com / password</p>
-          <p>Customer Care: care@example.com / password</p>
+        <div className="hidden md:flex flex-col justify-center space-y-4">
+          <h1 className="text-3xl font-bold tracking-tight">Ford Dealer Portal</h1>
+          <p className="text-muted-foreground">
+            Access all your dealership metrics, inventory, and customer information in one centralized dashboard.
+          </p>
+          <ul className="space-y-2 text-muted-foreground">
+            <li className="flex items-center gap-2">
+              ✓ <span>Track sales performance</span>
+            </li>
+            <li className="flex items-center gap-2">
+              ✓ <span>Manage inventory</span>
+            </li>
+            <li className="flex items-center gap-2">
+              ✓ <span>View service appointments</span>
+            </li>
+            <li className="flex items-center gap-2">
+              ✓ <span>Access alignment data</span>
+            </li>
+            <li className="flex items-center gap-2">
+              ✓ <span>Generate reports</span>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
