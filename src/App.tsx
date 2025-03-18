@@ -13,6 +13,7 @@ import Inventory from "./pages/Inventory";
 import OrderHistory from "./pages/OrderHistory";
 import Notifications from "./pages/Notifications";
 import ContactBook from "./pages/ContactBook";
+import AlignmentPage from "./pages/AlignmentPage";
 import NotFound from "./pages/NotFound";
 import { AuthProvider } from "./contexts/AuthContext";
 
@@ -36,6 +37,7 @@ const App = () => (
               <Route path="orders" element={<OrderHistory />} />
               <Route path="contacts" element={<ContactBook />} />
               <Route path="notifications" element={<Notifications />} />
+              <Route path="alignment" element={<AlignmentPage />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Calendar, Download, List, ListCheck, History as HistoryIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -51,12 +52,18 @@ const AlignmentMenu = () => {
 
   const handleStatusSelect = (status: string) => {
     setSelectedStatus(status);
-    setShowHistoryFields(status === "history" || (status === "all" && !showData));
-    const shouldShowData = 
-      status === "active" || 
-      (status === "history" && startDate && endDate) || 
-      (status === "all" && !(status === "history" || (status === "all" && !showData) && !(startDate && endDate)));
-    setShowData(shouldShowData);
+    
+    // Fix the type error by ensuring we always set a boolean value
+    if (status === "history") {
+      setShowHistoryFields(true);
+      setShowData(false);
+    } else if (status === "all") {
+      setShowHistoryFields(!showData);
+      setShowData(false);
+    } else if (status === "active") {
+      setShowHistoryFields(false);
+      setShowData(true);
+    }
   };
 
   const handleSubmit = () => {

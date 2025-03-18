@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Outlet, NavLink, useLocation, Navigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -15,7 +14,8 @@ import {
   Menu, 
   X,
   BookUser,
-  Wrench
+  Wrench,
+  AlignLeft
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -41,6 +41,7 @@ const DashboardLayout = () => {
   const navigation = [
     { name: "Sales Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { name: "Service Dashboard", href: "/dashboard/service", icon: Wrench },
+    { name: "Alignment", href: "/dashboard/alignment", icon: AlignLeft },
     { name: "Profile", href: "/dashboard/profile", icon: User },
     { name: "Inventory", href: "/dashboard/inventory", icon: Package },
     { name: "Orders", href: "/dashboard/orders", icon: ShoppingCart },

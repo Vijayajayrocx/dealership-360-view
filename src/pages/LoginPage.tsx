@@ -1,10 +1,10 @@
+
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/contexts/AuthContext";
-import AlignmentMenu from "@/components/AlignmentMenu";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -12,7 +12,6 @@ const LoginPage = () => {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [error, setError] = React.useState("");
-  const [showAlignmentMenu, setShowAlignmentMenu] = React.useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,18 +73,6 @@ const LoginPage = () => {
                 Forgot your password?
               </a>
             </div>
-            <Button 
-              variant="outline" 
-              className="w-full mt-4"
-              onClick={() => setShowAlignmentMenu(!showAlignmentMenu)}
-            >
-              {showAlignmentMenu ? "Hide" : "Show"} Alignment Menu
-            </Button>
-            {showAlignmentMenu && (
-              <div className="w-full mt-4">
-                <AlignmentMenu />
-              </div>
-            )}
           </CardFooter>
         </Card>
         <div className="hidden md:flex flex-col justify-center space-y-4">
