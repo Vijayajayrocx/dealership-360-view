@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Calendar, Download, List, ListCheck, History as HistoryIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -38,8 +37,8 @@ const alignmentTypes = [
 const AlignmentMenu = () => {
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
-  const [startDate, setStartDate] = useState<Date>();
-  const [endDate, setEndDate] = useState<Date>();
+  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
+  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
   const [showHistoryFields, setShowHistoryFields] = useState(false);
   const [showData, setShowData] = useState(false);
 
@@ -52,8 +51,12 @@ const AlignmentMenu = () => {
 
   const handleStatusSelect = (status: string) => {
     setSelectedStatus(status);
-    setShowHistoryFields(status === "history" || (status === "all" && !startDate));
-    setShowData(status === "active" || (status === "history" && startDate && endDate) || (status === "all" && (!showHistoryFields || (startDate && endDate))));
+    setShowHistoryFields(status === "history" || (status === "all" && !showData));
+    const shouldShowData = 
+      status === "active" || 
+      (status === "history" && startDate && endDate) || 
+      (status === "all" && !(status === "history" || (status === "all" && !showData) && !(startDate && endDate)));
+    setShowData(shouldShowData);
   };
 
   const handleSubmit = () => {
@@ -66,7 +69,6 @@ const AlignmentMenu = () => {
   };
 
   const handleDownload = () => {
-    // In a real application, this would trigger the download of data
     console.log("Downloading alignment data", {
       type: selectedType,
       status: selectedStatus,
@@ -206,7 +208,6 @@ const AlignmentMenu = () => {
             </Button>
           </div>
           
-          {/* Placeholder for alignment data */}
           <div className="bg-muted p-4 rounded-md">
             <p className="text-muted-foreground text-center">
               {selectedStatus === "active" ? "Active alignment data will appear here" :

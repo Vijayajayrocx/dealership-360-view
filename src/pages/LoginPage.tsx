@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -24,23 +23,10 @@ const LoginPage = () => {
       return;
     }
 
-    // For demonstration purposes
-    login({
-      id: "1",
-      name: "Ramakrishnan N",
-      email: "ramakrishnan@example.com",
-      role: "dealer",
-      dealership: "Ford Authorized Dealership",
-      zone: "South",
-      district: "Chennai",
-      ssn: "XXX-XX-XXXX",
-      twoFactorEnabled: true,
-      location: "Chennai, Tamil Nadu",
-      admin: "Ramakrishnan N",
-      specialization: "Electric Vehicles"
-    });
+    // For demonstration purposes - passing email and password to login
+    login(username, password);
     
-    navigate("/dashboard");
+    // Note: Navigation will be handled by the AuthContext after successful login
   };
 
   return (
