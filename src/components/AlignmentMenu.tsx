@@ -9,14 +9,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  DropdownMenuSub,
-  DropdownMenuSubTrigger,
-  DropdownMenuSubContent,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { format } from "date-fns";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import {
@@ -25,6 +18,15 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { alignmentData, AlignmentData } from "@/data/alignmentData";
 
 const alignmentTypes = [
   { id: "sales", label: "SALES ALIGNMENT" },
@@ -42,46 +44,64 @@ const AlignmentMenu = () => {
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
   const [showHistoryFields, setShowHistoryFields] = useState(false);
   const [showData, setShowData] = useState(false);
+  const [filteredData, setFilteredData] = useState<AlignmentData[]>([]);
 
   const handleTypeSelect = (type: string) => {
     setSelectedType(type);
     setSelectedStatus(null);
     setShowHistoryFields(false);
     setShowData(false);
+    setFilteredData([]);
   };
 
   const handleStatusSelect = (status: string) => {
     setSelectedStatus(status);
     
-    // Fix the type error by ensuring we always set a boolean value
-    if (status === "history") {
+    if (status === "history" || status === "all") {
       setShowHistoryFields(true);
-      setShowData(false);
-    } else if (status === "all") {
-      setShowHistoryFields(!showData);
       setShowData(false);
     } else if (status === "active") {
       setShowHistoryFields(false);
+      const activeData = alignmentData.filter(
+        item => item.type === selectedType && item.status === 'active'
+      );
+      setFilteredData(activeData);
       setShowData(true);
     }
   };
 
   const handleSubmit = () => {
-    if (selectedStatus === "history" || selectedStatus === "all") {
-      if (startDate && endDate) {
-        setShowData(true);
-        setShowHistoryFields(false);
-      }
+    if (!selectedType) return;
+
+    let filtered = [];
+    if (selectedStatus === "active") {
+      filtered = alignmentData.filter(
+        item => item.type === selectedType && item.status === 'active'
+      );
+    } else if (selectedStatus === "history" && startDate && endDate) {
+      filtered = alignmentData.filter(item => 
+        item.type === selectedType &&
+        item.status === 'history' &&
+        item.effectiveStartDate >= startDate &&
+        item.effectiveEndDate && item.effectiveEndDate <= endDate
+      );
+    } else if (selectedStatus === "all" && startDate && endDate) {
+      filtered = alignmentData.filter(item => 
+        item.type === selectedType &&
+        (item.status === 'active' ||
+          (item.effectiveStartDate >= startDate &&
+           item.effectiveEndDate && item.effectiveEndDate <= endDate))
+      );
     }
+    
+    setFilteredData(filtered);
+    setShowData(true);
+    setShowHistoryFields(false);
   };
 
   const handleDownload = () => {
-    console.log("Downloading alignment data", {
-      type: selectedType,
-      status: selectedStatus,
-      startDate,
-      endDate,
-    });
+    // In a real app, this would trigger a CSV download
+    console.log("Downloading alignment data", filteredData);
   };
 
   return (
@@ -142,11 +162,10 @@ const AlignmentMenu = () => {
           <h3 className="text-lg font-medium">Historical Data Range</h3>
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="startDate">Effective Start Date</Label>
+              <label className="text-sm font-medium">Effective Start Date</label>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
-                    id="startDate"
                     variant={"outline"}
                     className={cn(
                       "w-full justify-start text-left font-normal",
@@ -163,17 +182,15 @@ const AlignmentMenu = () => {
                     selected={startDate}
                     onSelect={setStartDate}
                     initialFocus
-                    className="p-3 pointer-events-auto"
                   />
                 </PopoverContent>
               </Popover>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="endDate">Termination Date</Label>
+              <label className="text-sm font-medium">Termination Date</label>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
-                    id="endDate"
                     variant={"outline"}
                     className={cn(
                       "w-full justify-start text-left font-normal",
@@ -190,19 +207,18 @@ const AlignmentMenu = () => {
                     selected={endDate}
                     onSelect={setEndDate}
                     initialFocus
-                    className="p-3 pointer-events-auto"
                   />
                 </PopoverContent>
               </Popover>
             </div>
           </div>
-          <Button onClick={handleSubmit} className="w-full">Submit</Button>
+          <Button onClick={handleSubmit}>Submit</Button>
         </div>
       )}
 
-      {showData && (
-        <div className="border rounded-md p-4">
-          <div className="flex items-center justify-between mb-4">
+      {showData && filteredData.length > 0 && (
+        <div className="border rounded-md">
+          <div className="flex items-center justify-between p-4">
             <h3 className="text-lg font-medium">
               {selectedType && alignmentTypes.find(t => t.id === selectedType)?.label} - 
               {selectedStatus === "active" ? " Active" : 
@@ -215,13 +231,44 @@ const AlignmentMenu = () => {
             </Button>
           </div>
           
-          <div className="bg-muted p-4 rounded-md">
-            <p className="text-muted-foreground text-center">
-              {selectedStatus === "active" ? "Active alignment data will appear here" :
-               selectedStatus === "history" ? `Historical alignment data from ${startDate && format(startDate, "PPP")} to ${endDate && format(endDate, "PPP")} will appear here` :
-               "All alignment data will appear here"}
-            </p>
+          <div className="p-4">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Alignment Name</TableHead>
+                  <TableHead>Dealer Name</TableHead>
+                  <TableHead>Location</TableHead>
+                  <TableHead>Start Date</TableHead>
+                  <TableHead>End Date</TableHead>
+                  <TableHead>Zone</TableHead>
+                  <TableHead>District</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredData.map((item) => (
+                  <TableRow key={item.id}>
+                    <TableCell>{item.alignmentName}</TableCell>
+                    <TableCell>{item.dealerName}</TableCell>
+                    <TableCell>{item.location}</TableCell>
+                    <TableCell>{format(item.effectiveStartDate, "PP")}</TableCell>
+                    <TableCell>
+                      {item.effectiveEndDate ? format(item.effectiveEndDate, "PP") : "-"}
+                    </TableCell>
+                    <TableCell>{item.zone}</TableCell>
+                    <TableCell>{item.district}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </div>
+        </div>
+      )}
+
+      {showData && filteredData.length === 0 && (
+        <div className="bg-muted p-4 rounded-md">
+          <p className="text-muted-foreground text-center">
+            No alignment data found for the selected criteria
+          </p>
         </div>
       )}
     </div>
