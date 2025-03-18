@@ -62,6 +62,9 @@ const LoginPage = () => {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                 />
+                <p className="text-xs text-muted-foreground">
+                  Try: dealer@example.com
+                </p>
               </div>
               <div className="space-y-2">
                 <label htmlFor="password" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
@@ -74,6 +77,9 @@ const LoginPage = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
+                <p className="text-xs text-muted-foreground">
+                  Try: password
+                </p>
               </div>
               {requiresTwoFactor && (
                 <div className="space-y-2">
