@@ -8,12 +8,13 @@ import { useAuth } from "@/contexts/AuthContext";
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, requiresTwoFactor } = useAuth();
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [code, setCode] = React.useState("");
   const [error, setError] = React.useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
@@ -22,10 +23,21 @@ const LoginPage = () => {
       return;
     }
 
-    // For demonstration purposes - passing email and password to login
-    login(username, password);
-    
-    // Note: Navigation will be handled by the AuthContext after successful login
+    try {
+      // If two-factor authentication is required, include the verification code
+      if (requiresTwoFactor) {
+        await login(username, password, code);
+      } else {
+        await login(username, password);
+      }
+      // Note: Navigation will be handled by the AuthContext after successful login
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("Failed to log in");
+      }
+    }
   };
 
   return (
@@ -63,6 +75,22 @@ const LoginPage = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
+              {requiresTwoFactor && (
+                <div className="space-y-2">
+                  <label htmlFor="code" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    Verification Code
+                  </label>
+                  <Input
+                    id="code"
+                    placeholder="Enter verification code"
+                    value={code}
+                    onChange={(e) => setCode(e.target.value)}
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    Use code 123456 for demo
+                  </p>
+                </div>
+              )}
               {error && <p className="text-destructive text-sm">{error}</p>}
               <Button className="w-full" type="submit">Sign In</Button>
             </form>
