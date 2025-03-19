@@ -8,8 +8,9 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAuth } from "@/contexts/AuthContext";
-import { Check, MapPin, Shield, Building, Map, Users, Award, Mail, User, Fingerprint } from "lucide-react";
+import { Check, MapPin, Shield, Building, Map, Users, Award, Mail, UserRound, Fingerprint } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const DealerProfile = () => {
   const { user } = useAuth();
@@ -64,15 +65,21 @@ const DealerProfile = () => {
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card className="col-span-2">
-          <CardHeader>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle>Profile Information</CardTitle>
+            <Avatar className="h-12 w-12 border border-gray-200">
+              <AvatarImage src={user?.avatarUrl || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=64&h=64"} alt={user?.name} />
+              <AvatarFallback className="bg-ds-primary-200 text-ds-primary-800">
+                {user?.name?.substring(0, 2).toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
           </CardHeader>
           <CardContent>
             <div className="flex flex-col space-y-4">
               {/* Name */}
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="name" className="flex items-center gap-2">
-                  <User className="h-4 w-4" /> Name
+                  <UserRound className="h-4 w-4" /> Name
                 </Label>
                 {isEditing ? (
                   <Input id="name" name="name" value={formData.name} onChange={handleChange} />

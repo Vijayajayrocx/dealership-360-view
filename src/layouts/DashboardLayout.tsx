@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Outlet, NavLink, useLocation, Navigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -9,7 +10,7 @@ import {
   Package, 
   ShoppingCart, 
   Bell, 
-  User, 
+  UserRound, 
   LogOut, 
   Menu, 
   X,
@@ -42,7 +43,7 @@ const DashboardLayout = () => {
     { name: "Sales Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { name: "Service Dashboard", href: "/dashboard/service", icon: Wrench },
     { name: "Alignment", href: "/dashboard/alignment", icon: AlignLeft },
-    { name: "Profile", href: "/dashboard/profile", icon: User },
+    { name: "Profile", href: "/dashboard/profile", icon: UserRound },
     { name: "Inventory", href: "/dashboard/inventory", icon: Package },
     { name: "Orders", href: "/dashboard/orders", icon: ShoppingCart },
     { name: "Contact Book", href: "/dashboard/contacts", icon: BookUser },
@@ -89,8 +90,8 @@ const DashboardLayout = () => {
             
             <div className="mt-auto">
               <div className="flex items-center p-3 mb-2 bg-gray-50 rounded-lg">
-                <Avatar className="h-10 w-10">
-                  <AvatarImage src={user?.avatarUrl} alt={user?.name} />
+                <Avatar className="h-10 w-10 border border-gray-200">
+                  <AvatarImage src={user?.avatarUrl || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=64&h=64"} alt={user?.name} />
                   <AvatarFallback className="bg-ds-primary-200 text-ds-primary-800">
                     {user?.name?.substring(0, 2).toUpperCase()}
                   </AvatarFallback>
@@ -140,8 +141,8 @@ const DashboardLayout = () => {
                   
                   <div className="mt-auto">
                     <div className="flex items-center p-3 mb-2 bg-gray-50 rounded-lg">
-                      <Avatar className="h-10 w-10">
-                        <AvatarImage src={user?.avatarUrl} alt={user?.name} />
+                      <Avatar className="h-10 w-10 border border-gray-200">
+                        <AvatarImage src={user?.avatarUrl || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=64&h=64"} alt={user?.name} />
                         <AvatarFallback className="bg-ds-primary-200 text-ds-primary-800">
                           {user?.name?.substring(0, 2).toUpperCase()}
                         </AvatarFallback>
@@ -167,8 +168,8 @@ const DashboardLayout = () => {
           <h1 className="ml-3 text-xl font-bold text-ds-primary-800">DS360</h1>
         </div>
         
-        <Avatar className="h-8 w-8">
-          <AvatarImage src={user?.avatarUrl} alt={user?.name} />
+        <Avatar className="h-8 w-8 border border-gray-200">
+          <AvatarImage src={user?.avatarUrl || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=64&h=64"} alt={user?.name} />
           <AvatarFallback className="bg-ds-primary-200 text-ds-primary-800">
             {user?.name?.substring(0, 2).toUpperCase()}
           </AvatarFallback>

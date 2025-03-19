@@ -25,7 +25,7 @@ const AlignmentPage = () => {
               </div>
             </TooltipTrigger>
             <TooltipContent side="left" className="max-w-sm">
-              <p>For history data, try dates between Jan 2023 and Jul 2024. The system will show alignments active during your selected date range.</p>
+              <p>For history data, try dates between Jan 2023 and Feb 2025. The system will show alignments active during your selected date range.</p>
             </TooltipContent>
           </Tooltip>
         </div>

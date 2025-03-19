@@ -40,7 +40,7 @@ const mockUsers = [
     name: "Ramakrishnan N",
     role: "dealer" as UserRole,
     dealershipName: "Krishna Motors",
-    avatarUrl: "https://i.pravatar.cc/150?u=dealer",
+    avatarUrl: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=64&h=64",
     zone: "South",
     district: "Chennai",
     ssn: "XXX-XX-9876",
@@ -55,7 +55,7 @@ const mockUsers = [
     password: "password",
     name: "Jane Doe",
     role: "customer-care-executive" as UserRole,
-    avatarUrl: "https://i.pravatar.cc/150?u=care",
+    avatarUrl: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?auto=format&fit=crop&w=64&h=64",
   }
 ];
 
