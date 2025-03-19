@@ -1,6 +1,8 @@
 
 import React from "react";
 import AlignmentMenu from "@/components/AlignmentMenu";
+import { InfoIcon } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 const AlignmentPage = () => {
   return (
@@ -13,9 +15,23 @@ const AlignmentPage = () => {
       </div>
       
       <div className="bg-white p-6 rounded-lg shadow-sm">
-        <h2 className="text-xl font-semibold mb-4">Alignment Tool</h2>
+        <div className="flex items-start justify-between mb-4">
+          <h2 className="text-xl font-semibold">Alignment Tool</h2>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="flex items-center text-sm text-muted-foreground cursor-help">
+                <InfoIcon className="h-4 w-4 mr-1" />
+                <span>Date Selection Tip</span>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent side="left" className="max-w-sm">
+              <p>For history data, try dates between Jan 2023 and Jul 2024. The system will show alignments active during your selected date range.</p>
+            </TooltipContent>
+          </Tooltip>
+        </div>
+        
         <p className="text-muted-foreground mb-6">
-          Select an alignment type and status to view or download alignment data.
+          Select an alignment type and status to view or download alignment data. For historical data, select a date range.
         </p>
         
         <AlignmentMenu />
