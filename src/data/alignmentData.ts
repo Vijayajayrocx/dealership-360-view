@@ -817,4 +817,460 @@ export const alignmentData: AlignmentData[] = [
     status: 'history',
     type: 'fordProElite'
   },
+  
+  // Ford Credit Historical Data (2024-2025)
   {
+    id: "68",
+    alignmentName: "Q1 2024 Credit Strategy",
+    dealerName: "Finance Motors",
+    location: "Mumbai",
+    effectiveStartDate: new Date(2024, 0, 15), // Jan 15, 2024
+    effectiveEndDate: new Date(2024, 3, 15), // Apr 15, 2024
+    zone: "West",
+    district: "Mumbai Financial District",
+    status: 'history',
+    type: 'fordCredit'
+  },
+  {
+    id: "69",
+    alignmentName: "Spring Finance Campaign",
+    dealerName: "Springtime Ford",
+    location: "Delhi",
+    effectiveStartDate: new Date(2024, 2, 1), // Mar 1, 2024
+    effectiveEndDate: new Date(2024, 4, 30), // May 30, 2024
+    zone: "North",
+    district: "Delhi Credit Zone",
+    status: 'history',
+    type: 'fordCredit'
+  },
+  {
+    id: "70",
+    alignmentName: "Affordable Financing Initiative",
+    dealerName: "Accessible Motors",
+    location: "Chennai",
+    effectiveStartDate: new Date(2024, 4, 15), // May 15, 2024
+    effectiveEndDate: new Date(2024, 7, 15), // Aug 15, 2024
+    zone: "South",
+    district: "Chennai Finance Hub",
+    status: 'history',
+    type: 'fordCredit'
+  },
+  {
+    id: "71",
+    alignmentName: "Credit Risk Assessment Revamp",
+    dealerName: "Prudent Ford",
+    location: "Bangalore",
+    effectiveStartDate: new Date(2024, 6, 1), // Jul 1, 2024
+    effectiveEndDate: new Date(2024, 9, 1), // Oct 1, 2024
+    zone: "South",
+    district: "Bangalore Finance District",
+    status: 'history',
+    type: 'fordCredit'
+  },
+  {
+    id: "72",
+    alignmentName: "Festive Season Finance Options",
+    dealerName: "Festival Ford",
+    location: "Hyderabad",
+    effectiveStartDate: new Date(2024, 8, 15), // Sep 15, 2024
+    effectiveEndDate: new Date(2024, 11, 15), // Dec 15, 2024
+    zone: "South",
+    district: "Hyderabad Credit Zone",
+    status: 'history',
+    type: 'fordCredit'
+  },
+  {
+    id: "73",
+    alignmentName: "Year-end Credit Promotion",
+    dealerName: "Yearend Motors",
+    location: "Kolkata",
+    effectiveStartDate: new Date(2024, 10, 1), // Nov 1, 2024
+    effectiveEndDate: new Date(2025, 0, 31), // Jan 31, 2025
+    zone: "East",
+    district: "Kolkata Finance District",
+    status: 'history',
+    type: 'fordCredit'
+  },
+  
+  // Fleet Historical Data (2024-2025)
+  {
+    id: "74",
+    alignmentName: "Corporate Fleet Program 2024",
+    dealerName: "Corporate Fleet Ford",
+    location: "Mumbai",
+    effectiveStartDate: new Date(2024, 0, 10), // Jan 10, 2024
+    effectiveEndDate: new Date(2024, 3, 10), // Apr 10, 2024
+    zone: "West",
+    district: "Mumbai Corporate Park",
+    status: 'history',
+    type: 'fleet'
+  },
+  {
+    id: "75",
+    alignmentName: "Government Fleet Partnership",
+    dealerName: "Government Motors",
+    location: "Delhi",
+    effectiveStartDate: new Date(2024, 2, 15), // Mar 15, 2024
+    effectiveEndDate: new Date(2024, 5, 15), // Jun 15, 2024
+    zone: "North",
+    district: "Delhi Administrative Zone",
+    status: 'history',
+    type: 'fleet'
+  },
+  {
+    id: "76",
+    alignmentName: "Logistics Fleet Solutions",
+    dealerName: "Logistics Ford",
+    location: "Chennai",
+    effectiveStartDate: new Date(2024, 4, 1), // May 1, 2024
+    effectiveEndDate: new Date(2024, 7, 1), // Aug 1, 2024
+    zone: "South",
+    district: "Chennai Port Zone",
+    status: 'history',
+    type: 'fleet'
+  },
+  {
+    id: "77",
+    alignmentName: "Technology Sector Fleet Program",
+    dealerName: "Tech Fleet Motors",
+    location: "Bangalore",
+    effectiveStartDate: new Date(2024, 6, 15), // Jul 15, 2024
+    effectiveEndDate: new Date(2024, 9, 15), // Oct 15, 2024
+    zone: "South",
+    district: "Bangalore Tech Park",
+    status: 'history',
+    type: 'fleet'
+  },
+  {
+    id: "78",
+    alignmentName: "Healthcare Fleet Initiative",
+    dealerName: "Healthcare Ford",
+    location: "Hyderabad",
+    effectiveStartDate: new Date(2024, 8, 1), // Sep 1, 2024
+    effectiveEndDate: new Date(2024, 11, 1), // Dec 1, 2024
+    zone: "South",
+    district: "Hyderabad Medical Hub",
+    status: 'history',
+    type: 'fleet'
+  },
+  {
+    id: "79",
+    alignmentName: "Urban Mobility Fleet Solutions",
+    dealerName: "Urban Fleet Motors",
+    location: "Pune",
+    effectiveStartDate: new Date(2024, 10, 15), // Nov 15, 2024
+    effectiveEndDate: new Date(2025, 1, 15), // Feb 15, 2025
+    zone: "West",
+    district: "Pune Urban Zone",
+    status: 'history',
+    type: 'fleet'
+  },
+  
+  // Sales Historical Data (2024-2025)
+  {
+    id: "80",
+    alignmentName: "Q1 2024 Sales Strategy",
+    dealerName: "Strategy Ford",
+    location: "Mumbai",
+    effectiveStartDate: new Date(2024, 0, 5), // Jan 5, 2024
+    effectiveEndDate: new Date(2024, 2, 31), // Mar 31, 2024
+    zone: "West",
+    district: "Mumbai Sales Territory",
+    status: 'history',
+    type: 'sales'
+  },
+  {
+    id: "81",
+    alignmentName: "Northern Sales Expansion",
+    dealerName: "Expansion Motors",
+    location: "Delhi",
+    effectiveStartDate: new Date(2024, 2, 1), // Mar 1, 2024
+    effectiveEndDate: new Date(2024, 4, 30), // May 30, 2024
+    zone: "North",
+    district: "Delhi NCR Sales",
+    status: 'history',
+    type: 'sales'
+  },
+  {
+    id: "82",
+    alignmentName: "Summer Sales Campaign",
+    dealerName: "Summer Ford",
+    location: "Chennai",
+    effectiveStartDate: new Date(2024, 4, 15), // May 15, 2024
+    effectiveEndDate: new Date(2024, 6, 30), // Jul 30, 2024
+    zone: "South",
+    district: "Chennai Metro Sales",
+    status: 'history',
+    type: 'sales'
+  },
+  {
+    id: "83",
+    alignmentName: "Monsoon Special Sales Drive",
+    dealerName: "Monsoon Motors",
+    location: "Kolkata",
+    effectiveStartDate: new Date(2024, 6, 1), // Jul 1, 2024
+    effectiveEndDate: new Date(2024, 8, 30), // Sep 30, 2024
+    zone: "East",
+    district: "Kolkata Sales Territory",
+    status: 'history',
+    type: 'sales'
+  },
+  {
+    id: "84",
+    alignmentName: "Festive Sales Bonanza",
+    dealerName: "Festive Ford",
+    location: "Bangalore",
+    effectiveStartDate: new Date(2024, 8, 15), // Sep 15, 2024
+    effectiveEndDate: new Date(2024, 10, 15), // Nov 15, 2024
+    zone: "South",
+    district: "Bangalore Urban Sales",
+    status: 'history',
+    type: 'sales'
+  },
+  {
+    id: "85",
+    alignmentName: "Winter Sales Strategy",
+    dealerName: "Winter Motors",
+    location: "Hyderabad",
+    effectiveStartDate: new Date(2024, 10, 1), // Nov 1, 2024
+    effectiveEndDate: new Date(2025, 0, 31), // Jan 31, 2025
+    zone: "South",
+    district: "Hyderabad Sales Zone",
+    status: 'history',
+    type: 'sales'
+  },
+  
+  // Sales Ops Historical Data (2024-2025)
+  {
+    id: "86",
+    alignmentName: "2024 Sales Ops Optimization",
+    dealerName: "Optimal Ford",
+    location: "Mumbai",
+    effectiveStartDate: new Date(2024, 0, 15), // Jan 15, 2024
+    effectiveEndDate: new Date(2024, 3, 15), // Apr 15, 2024
+    zone: "West",
+    district: "Mumbai Operations",
+    status: 'history',
+    type: 'salesOps'
+  },
+  {
+    id: "87",
+    alignmentName: "Digital Sales Process Implementation",
+    dealerName: "Digital Process Ford",
+    location: "Bangalore",
+    effectiveStartDate: new Date(2024, 2, 1), // Mar 1, 2024
+    effectiveEndDate: new Date(2024, 4, 30), // May 30, 2024
+    zone: "South",
+    district: "Bangalore Digital Hub",
+    status: 'history',
+    type: 'salesOps'
+  },
+  {
+    id: "88",
+    alignmentName: "Sales Analytics Enhancement",
+    dealerName: "Analytics Motors",
+    location: "Delhi",
+    effectiveStartDate: new Date(2024, 4, 15), // May 15, 2024
+    effectiveEndDate: new Date(2024, 7, 15), // Aug 15, 2024
+    zone: "North",
+    district: "Delhi Business Intelligence",
+    status: 'history',
+    type: 'salesOps'
+  },
+  {
+    id: "89",
+    alignmentName: "CRM System Integration",
+    dealerName: "Integrated Ford",
+    location: "Chennai",
+    effectiveStartDate: new Date(2024, 6, 1), // Jul 1, 2024
+    effectiveEndDate: new Date(2024, 9, 1), // Oct 1, 2024
+    zone: "South",
+    district: "Chennai IT Zone",
+    status: 'history',
+    type: 'salesOps'
+  },
+  {
+    id: "90",
+    alignmentName: "Lead Management Optimization",
+    dealerName: "Lead Motors",
+    location: "Hyderabad",
+    effectiveStartDate: new Date(2024, 8, 15), // Sep 15, 2024
+    effectiveEndDate: new Date(2024, 11, 15), // Dec 15, 2024
+    zone: "South",
+    district: "Hyderabad Sales Ops",
+    status: 'history',
+    type: 'salesOps'
+  },
+  {
+    id: "91",
+    alignmentName: "Sales Forecasting System Upgrade",
+    dealerName: "Forecast Ford",
+    location: "Pune",
+    effectiveStartDate: new Date(2024, 10, 1), // Nov 1, 2024
+    effectiveEndDate: new Date(2025, 1, 1), // Feb 1, 2025
+    zone: "West",
+    district: "Pune Business Center",
+    status: 'history',
+    type: 'salesOps'
+  },
+  
+  // Service Historical Data (2024-2025)
+  {
+    id: "92",
+    alignmentName: "2024 Service Network Expansion",
+    dealerName: "Network Ford",
+    location: "Mumbai",
+    effectiveStartDate: new Date(2024, 0, 10), // Jan 10, 2024
+    effectiveEndDate: new Date(2024, 3, 10), // Apr 10, 2024
+    zone: "West",
+    district: "Mumbai Service Network",
+    status: 'history',
+    type: 'service'
+  },
+  {
+    id: "93",
+    alignmentName: "Quick Service Enhancement",
+    dealerName: "Quick Motors",
+    location: "Delhi",
+    effectiveStartDate: new Date(2024, 2, 15), // Mar 15, 2024
+    effectiveEndDate: new Date(2024, 5, 15), // Jun 15, 2024
+    zone: "North",
+    district: "Delhi Service Express",
+    status: 'history',
+    type: 'service'
+  },
+  {
+    id: "94",
+    alignmentName: "Service Digitalization Project",
+    dealerName: "Digital Service Ford",
+    location: "Bangalore",
+    effectiveStartDate: new Date(2024, 4, 1), // May 1, 2024
+    effectiveEndDate: new Date(2024, 7, 1), // Aug 1, 2024
+    zone: "South",
+    district: "Bangalore Tech Service",
+    status: 'history',
+    type: 'service'
+  },
+  {
+    id: "95",
+    alignmentName: "Preventive Maintenance Campaign",
+    dealerName: "Preventive Ford",
+    location: "Chennai",
+    effectiveStartDate: new Date(2024, 6, 15), // Jul 15, 2024
+    effectiveEndDate: new Date(2024, 9, 15), // Oct 15, 2024
+    zone: "South",
+    district: "Chennai Service Hub",
+    status: 'history',
+    type: 'service'
+  },
+  {
+    id: "96",
+    alignmentName: "Service Parts Logistics Revamp",
+    dealerName: "Parts Logistics Motors",
+    location: "Hyderabad",
+    effectiveStartDate: new Date(2024, 8, 1), // Sep 1, 2024
+    effectiveEndDate: new Date(2024, 11, 1), // Dec 1, 2024
+    zone: "South",
+    district: "Hyderabad Parts Center",
+    status: 'history',
+    type: 'service'
+  },
+  {
+    id: "97",
+    alignmentName: "Winter Service Readiness",
+    dealerName: "Winter Service Ford",
+    location: "Kolkata",
+    effectiveStartDate: new Date(2024, 10, 15), // Nov 15, 2024
+    effectiveEndDate: new Date(2025, 1, 15), // Feb 15, 2025
+    zone: "East",
+    district: "Kolkata Service District",
+    status: 'history',
+    type: 'service'
+  },
+  
+  // Ford Pro Elite Historical Data (2024-2025)
+  {
+    id: "98",
+    alignmentName: "2024 Elite Business Solutions",
+    dealerName: "Elite Business Ford",
+    location: "Mumbai",
+    effectiveStartDate: new Date(2024, 0, 5), // Jan 5, 2024
+    effectiveEndDate: new Date(2024, 3, 5), // Apr 5, 2024
+    zone: "West",
+    district: "Mumbai Elite Business",
+    status: 'history',
+    type: 'fordProElite'
+  },
+  {
+    id: "99",
+    alignmentName: "Corporate Elite Program Upgrade",
+    dealerName: "Corporate Elite Motors",
+    location: "Delhi",
+    effectiveStartDate: new Date(2024, 2, 1), // Mar 1, 2024
+    effectiveEndDate: new Date(2024, 5, 1), // Jun 1, 2024
+    zone: "North",
+    district: "Delhi Corporate Hub",
+    status: 'history',
+    type: 'fordProElite'
+  },
+  {
+    id: "100",
+    alignmentName: "Premium Business Fleet Solutions",
+    dealerName: "Premium Business Ford",
+    location: "Bangalore",
+    effectiveStartDate: new Date(2024, 4, 15), // May 15, 2024
+    effectiveEndDate: new Date(2024, 7, 15), // Aug 15, 2024
+    zone: "South",
+    district: "Bangalore Business Park",
+    status: 'history',
+    type: 'fordProElite'
+  },
+  {
+    id: "101",
+    alignmentName: "Elite Customer Experience Revolution",
+    dealerName: "Experience Elite Motors",
+    location: "Chennai",
+    effectiveStartDate: new Date(2024, 6, 1), // Jul 1, 2024
+    effectiveEndDate: new Date(2024, 9, 1), // Oct 1, 2024
+    zone: "South",
+    district: "Chennai Elite Zone",
+    status: 'history',
+    type: 'fordProElite'
+  },
+  {
+    id: "102",
+    alignmentName: "Enterprise Solutions Package",
+    dealerName: "Enterprise Ford",
+    location: "Hyderabad",
+    effectiveStartDate: new Date(2024, 8, 15), // Sep 15, 2024
+    effectiveEndDate: new Date(2024, 11, 15), // Dec 15, 2024
+    zone: "South",
+    district: "Hyderabad Enterprise Hub",
+    status: 'history',
+    type: 'fordProElite'
+  },
+  {
+    id: "103",
+    alignmentName: "Strategic Business Partnership",
+    dealerName: "Strategic Motors",
+    location: "Pune",
+    effectiveStartDate: new Date(2024, 10, 1), // Nov 1, 2024
+    effectiveEndDate: new Date(2025, 1, 1), // Feb 1, 2025
+    zone: "West",
+    district: "Pune Strategic District",
+    status: 'history',
+    type: 'fordProElite'
+  },
+  {
+    id: "104",
+    alignmentName: "Elite Business Innovation Program",
+    dealerName: "Innovation Ford",
+    location: "Kolkata",
+    effectiveStartDate: new Date(2024, 11, 15), // Dec 15, 2024
+    effectiveEndDate: new Date(2025, 1, 28), // Feb 28, 2025
+    zone: "East",
+    district: "Kolkata Innovation Hub",
+    status: 'history',
+    type: 'fordProElite'
+  }
+];
