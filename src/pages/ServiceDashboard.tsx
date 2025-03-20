@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -110,7 +109,7 @@ const ServiceDashboard = () => {
                         yAxisId="left" 
                         type="monotone" 
                         dataKey="serviced" 
-                        stroke="#1E3A8A" 
+                        stroke="hsl(var(--primary))" 
                         name="Cars Serviced"
                         strokeWidth={2} 
                       />
@@ -118,7 +117,7 @@ const ServiceDashboard = () => {
                         yAxisId="right" 
                         type="monotone" 
                         dataKey="satisfaction" 
-                        stroke="#60A5FA" 
+                        stroke="hsl(var(--sidebar-primary))" 
                         name="Satisfaction (1-5)"
                         strokeWidth={2} 
                       />
@@ -175,9 +174,9 @@ const ServiceDashboard = () => {
                       <TableCell>{center.rating} / 5</TableCell>
                       <TableCell>
                         {center.rating >= 4.5 ? (
-                          <Badge className="bg-green-500 hover:bg-green-600">Premium</Badge>
+                          <Badge className="bg-primary/90 hover:bg-primary">Premium</Badge>
                         ) : center.rating >= 4.0 ? (
-                          <Badge className="bg-blue-500 hover:bg-blue-600">Standard</Badge>
+                          <Badge className="bg-sidebar-primary hover:bg-sidebar-primary/90">Standard</Badge>
                         ) : (
                           <Badge variant="outline">Basic</Badge>
                         )}
@@ -205,7 +204,7 @@ const ServiceDashboard = () => {
                     <YAxis type="category" dataKey="type" width={100} />
                     <Tooltip formatter={(value) => [value, 'Count']} />
                     <Legend />
-                    <Bar dataKey="count" fill="#1E3A8A" name="Number of Services" />
+                    <Bar dataKey="count" fill="hsl(var(--primary))" name="Number of Services" />
                   </BarChart>
                 </ResponsiveContainer>
               </div>

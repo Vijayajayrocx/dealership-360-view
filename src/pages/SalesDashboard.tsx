@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/contexts/AuthContext";
@@ -11,7 +10,6 @@ const SalesDashboard = () => {
   const { user } = useAuth();
   const [selectedZone, setSelectedZone] = useState('all');
   
-  // Mock data for the sales chart
   const salesData = [
     { month: 'Jan', sales: 65000 },
     { month: 'Feb', sales: 59000 },
@@ -22,7 +20,6 @@ const SalesDashboard = () => {
     { month: 'Jul', sales: 40000 },
   ];
 
-  // Mock data for zones
   const zoneData = [
     { id: 'north', name: 'North Zone', totalSales: 235000, dealersCount: 12 },
     { id: 'south', name: 'South Zone', totalSales: 189000, dealersCount: 9 },
@@ -30,7 +27,6 @@ const SalesDashboard = () => {
     { id: 'west', name: 'West Zone', totalSales: 170000, dealersCount: 8 },
   ];
 
-  // Mock data for dealers
   const dealersData = [
     { id: 1, name: 'AutoEdge Motors', zone: 'north', salesCount: 320, qualified: true },
     { id: 2, name: 'City Drive Autos', zone: 'north', salesCount: 280, qualified: false },
@@ -44,19 +40,21 @@ const SalesDashboard = () => {
     { id: 10, name: 'Alpine Motors Corp', zone: 'west', salesCount: 330, qualified: true },
   ];
 
-  // Filter dealers by zone
   const filteredDealers = selectedZone === 'all' 
     ? dealersData 
     : dealersData.filter(dealer => dealer.zone === selectedZone);
   
-  // Get zone distribution for pie chart
   const zoneSalesDistribution = zoneData.map(zone => ({
     name: zone.name,
     value: zone.totalSales,
   }));
 
-  // Colors for the pie chart
-  const ZONE_COLORS = ['#1E40AF', '#3B82F6', '#60A5FA', '#93C5FD'];
+  const ZONE_COLORS = [
+    'hsl(var(--primary))', 
+    'hsl(var(--sidebar-primary))', 
+    'hsl(var(--accent))', 
+    'hsl(var(--muted))'
+  ];
 
   return (
     <div className="container mx-auto p-6">
@@ -119,7 +117,7 @@ const SalesDashboard = () => {
                       labelFormatter={(label) => `Month: ${label}`}
                     />
                     <Legend />
-                    <Bar dataKey="sales" fill="#1E3A8A" name="Sales ($)" />
+                    <Bar dataKey="sales" fill="hsl(var(--primary))" name="Sales ($)" />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -144,7 +142,7 @@ const SalesDashboard = () => {
                         cy="50%"
                         labelLine={false}
                         outerRadius={100}
-                        fill="#8884d8"
+                        fill="hsl(var(--muted))"
                         dataKey="value"
                         label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
                       >
@@ -235,7 +233,7 @@ const SalesDashboard = () => {
                       <TableCell>{dealer.salesCount}</TableCell>
                       <TableCell>
                         {dealer.qualified ? (
-                          <Badge className="bg-green-500 hover:bg-green-600">Premium Dealer</Badge>
+                          <Badge className="bg-primary/90 hover:bg-primary">Premium Dealer</Badge>
                         ) : (
                           <Badge variant="outline">Standard</Badge>
                         )}
