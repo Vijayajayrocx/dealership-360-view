@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis, LineChart, Line } from 'recharts';
+import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis, LineChart, Line, Cell } from 'recharts';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import ColorSeparationDashboard from '@/components/ColorSeparationDashboard';
@@ -234,7 +234,7 @@ const ServiceDashboard = () => {
                     <Legend />
                     <Bar dataKey="count" name="Number of Services">
                       {serviceTypesData.map((entry, index) => (
-                        <cell key={`cell-${index}`} fill={`hsl(var(--${entry.color.replace('bg-', '')}))`} />
+                        <Cell key={`cell-${index}`} fill={`hsl(var(--${entry.color.replace('bg-', '')}))`} />
                       ))}
                     </Bar>
                   </BarChart>
