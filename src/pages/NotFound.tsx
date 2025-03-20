@@ -20,7 +20,6 @@ const NotFound = () => {
         <h1 className="text-6xl font-bold mb-4 text-foreground">404</h1>
         <p className="text-xl text-muted-foreground mb-8">Oops! The page you're looking for cannot be found.</p>
         <Button 
-          className="bg-primary text-primary-foreground hover:bg-primary/90"
           onClick={() => navigate('/dashboard')}
         >
           Return to Dashboard

@@ -13,14 +13,12 @@ const Index = () => {
         
         <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
           <Button 
-            className="bg-primary text-primary-foreground hover:bg-primary/90"
             onClick={() => navigate('/dashboard')}
           >
             Go to Dashboard
           </Button>
           <Button 
             variant="outline" 
-            className="border-border text-foreground hover:bg-accent hover:text-accent-foreground"
             onClick={() => navigate('/login')}
           >
             Log In

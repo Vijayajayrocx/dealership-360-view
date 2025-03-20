@@ -7,7 +7,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 const AlignmentPage = () => {
   return (
     <div className="space-y-8">
-      <h1 className="text-3xl font-bold mb-2">Alignment Management</h1>
+      <h1 className="text-3xl font-bold mb-2 text-foreground">Alignment Management</h1>
       <p className="text-muted-foreground">
         View and manage your dealership alignment data
       </p>

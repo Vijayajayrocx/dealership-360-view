@@ -28,8 +28,8 @@ const DashboardLayout = () => {
   // If loading, show loading indicator
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-ds-primary-600"></div>
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
       </div>
     );
   }
@@ -61,8 +61,8 @@ const DashboardLayout = () => {
           cn(
             "flex items-center gap-3 rounded-lg px-3 py-2 transition-all",
             isActive
-              ? "bg-ds-primary-600 text-white"
-              : "text-ds-secondary-600 hover:bg-ds-primary-50 hover:text-ds-primary-600"
+              ? "bg-primary text-primary-foreground"
+              : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
           )
         }
       >
@@ -73,12 +73,12 @@ const DashboardLayout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-background flex">
       {/* Desktop Sidebar */}
-      <div className="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 border-r border-gray-200 bg-white">
+      <div className="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 border-r border-border bg-card">
         <div className="flex flex-col h-full">
-          <div className="flex items-center h-16 px-6 border-b border-gray-200">
-            <h1 className="text-2xl font-bold text-ds-primary-800">DS360</h1>
+          <div className="flex items-center h-16 px-6 border-b border-border">
+            <h1 className="text-2xl font-bold text-foreground">DS360</h1>
           </div>
           
           <div className="flex-1 flex flex-col justify-between py-4 px-3 overflow-y-auto">
@@ -89,21 +89,21 @@ const DashboardLayout = () => {
             </nav>
             
             <div className="mt-auto">
-              <div className="flex items-center p-3 mb-2 bg-gray-50 rounded-lg">
-                <Avatar className="h-10 w-10 border border-gray-200">
+              <div className="flex items-center p-3 mb-2 bg-accent rounded-lg">
+                <Avatar className="h-10 w-10 border border-border">
                   <AvatarImage src={user?.avatarUrl || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=64&h=64"} alt={user?.name} />
-                  <AvatarFallback className="bg-ds-primary-200 text-ds-primary-800">
+                  <AvatarFallback className="bg-muted text-muted-foreground">
                     {user?.name?.substring(0, 2).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
                 <div className="ml-3 overflow-hidden">
-                  <p className="text-sm font-medium truncate">{user?.name}</p>
-                  <p className="text-xs text-gray-500 truncate capitalize">{user?.role.replace("-", " ")}</p>
+                  <p className="text-sm font-medium truncate text-foreground">{user?.name}</p>
+                  <p className="text-xs text-muted-foreground truncate capitalize">{user?.role.replace("-", " ")}</p>
                 </div>
               </div>
               <Button 
                 variant="outline"
-                className="w-full justify-start text-ds-secondary-600 hover:text-ds-primary-600 hover:bg-ds-primary-50"
+                className="w-full justify-start"
                 onClick={logout}
               >
                 <LogOut className="mr-2 h-4 w-4" />
@@ -115,7 +115,7 @@ const DashboardLayout = () => {
       </div>
 
       {/* Mobile Nav */}
-      <div className="lg:hidden fixed top-0 inset-x-0 z-50 h-16 flex items-center justify-between px-4 bg-white border-b border-gray-200">
+      <div className="lg:hidden fixed top-0 inset-x-0 z-50 h-16 flex items-center justify-between px-4 bg-background border-b border-border">
         <div className="flex items-center">
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>
@@ -125,8 +125,8 @@ const DashboardLayout = () => {
             </SheetTrigger>
             <SheetContent side="left" className="w-64 p-0">
               <div className="flex flex-col h-full">
-                <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200">
-                  <h1 className="text-2xl font-bold text-ds-primary-800">DS360</h1>
+                <div className="flex items-center justify-between h-16 px-6 border-b border-border">
+                  <h1 className="text-2xl font-bold text-foreground">DS360</h1>
                   <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(false)}>
                     <X className="h-5 w-5" />
                   </Button>
@@ -140,21 +140,21 @@ const DashboardLayout = () => {
                   </nav>
                   
                   <div className="mt-auto">
-                    <div className="flex items-center p-3 mb-2 bg-gray-50 rounded-lg">
-                      <Avatar className="h-10 w-10 border border-gray-200">
+                    <div className="flex items-center p-3 mb-2 bg-accent rounded-lg">
+                      <Avatar className="h-10 w-10 border border-border">
                         <AvatarImage src={user?.avatarUrl || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=64&h=64"} alt={user?.name} />
-                        <AvatarFallback className="bg-ds-primary-200 text-ds-primary-800">
+                        <AvatarFallback className="bg-muted text-muted-foreground">
                           {user?.name?.substring(0, 2).toUpperCase()}
                         </AvatarFallback>
                       </Avatar>
                       <div className="ml-3 overflow-hidden">
-                        <p className="text-sm font-medium truncate">{user?.name}</p>
-                        <p className="text-xs text-gray-500 truncate capitalize">{user?.role.replace("-", " ")}</p>
+                        <p className="text-sm font-medium truncate text-foreground">{user?.name}</p>
+                        <p className="text-xs text-muted-foreground truncate capitalize">{user?.role.replace("-", " ")}</p>
                       </div>
                     </div>
                     <Button 
                       variant="outline"
-                      className="w-full justify-start text-ds-secondary-600 hover:text-ds-primary-600 hover:bg-ds-primary-50"
+                      className="w-full justify-start"
                       onClick={logout}
                     >
                       <LogOut className="mr-2 h-4 w-4" />
@@ -165,12 +165,12 @@ const DashboardLayout = () => {
               </div>
             </SheetContent>
           </Sheet>
-          <h1 className="ml-3 text-xl font-bold text-ds-primary-800">DS360</h1>
+          <h1 className="ml-3 text-xl font-bold text-foreground">DS360</h1>
         </div>
         
-        <Avatar className="h-8 w-8 border border-gray-200">
+        <Avatar className="h-8 w-8 border border-border">
           <AvatarImage src={user?.avatarUrl || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=64&h=64"} alt={user?.name} />
-          <AvatarFallback className="bg-ds-primary-200 text-ds-primary-800">
+          <AvatarFallback className="bg-muted text-muted-foreground">
             {user?.name?.substring(0, 2).toUpperCase()}
           </AvatarFallback>
         </Avatar>
