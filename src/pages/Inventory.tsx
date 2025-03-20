@@ -19,51 +19,51 @@ const Inventory = () => {
       <h1 className="text-2xl font-bold mb-6">Inventory Management</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-        <Card>
+        <Card className="bg-card border border-border">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">Total Vehicles</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">15</div>
+            <div className="text-2xl font-bold text-card-foreground">15</div>
           </CardContent>
         </Card>
         
-        <Card>
+        <Card className="bg-card border border-border">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">Low Stock</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">3</div>
+            <div className="text-2xl font-bold text-card-foreground">3</div>
           </CardContent>
         </Card>
         
-        <Card>
+        <Card className="bg-card border border-border">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">Inventory Value</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$402,395</div>
+            <div className="text-2xl font-bold text-card-foreground">$402,395</div>
           </CardContent>
         </Card>
         
-        <Card>
+        <Card className="bg-card border border-border">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">Avg. Days in Inventory</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">32</div>
+            <div className="text-2xl font-bold text-card-foreground">32</div>
           </CardContent>
         </Card>
       </div>
       
-      <Card>
+      <Card className="bg-card border border-border">
         <CardHeader>
-          <CardTitle>Current Inventory</CardTitle>
+          <CardTitle className="text-card-foreground">Current Inventory</CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
-              <TableRow>
+              <TableRow className="border-border">
                 <TableHead>Make</TableHead>
                 <TableHead>Model</TableHead>
                 <TableHead>Year</TableHead>
@@ -74,8 +74,8 @@ const Inventory = () => {
             </TableHeader>
             <TableBody>
               {inventory.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell>{item.make}</TableCell>
+                <TableRow key={item.id} className="border-border">
+                  <TableCell className="font-medium">{item.make}</TableCell>
                   <TableCell>{item.model}</TableCell>
                   <TableCell>{item.year}</TableCell>
                   <TableCell>{item.color}</TableCell>

@@ -12,9 +12,9 @@ const AlignmentPage = () => {
         View and manage your dealership alignment data
       </p>
       
-      <div className="bg-white p-6 rounded-lg shadow-sm">
+      <div className="bg-card border border-border p-6 rounded-lg shadow-sm">
         <div className="flex items-start justify-between mb-4">
-          <h2 className="text-xl font-semibold">Alignment Tool</h2>
+          <h2 className="text-xl font-semibold text-card-foreground">Alignment Tool</h2>
           <Tooltip>
             <TooltipTrigger asChild>
               <div className="flex items-center text-sm text-muted-foreground cursor-help">
@@ -22,7 +22,7 @@ const AlignmentPage = () => {
                 <span>Date Selection Tip</span>
               </div>
             </TooltipTrigger>
-            <TooltipContent side="left" className="max-w-sm">
+            <TooltipContent side="left" className="max-w-sm bg-popover text-popover-foreground">
               <p>For history data, try dates between Jan 2023 and Feb 2025. The system will show alignments active during your selected date range.</p>
             </TooltipContent>
           </Tooltip>
