@@ -4,6 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis, LineChart, Line } from 'recharts';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import ColorSeparationDashboard from '@/components/ColorSeparationDashboard';
 
 const ServiceDashboard = () => {
   const [selectedZone, setSelectedZone] = useState('all');
@@ -31,13 +32,13 @@ const ServiceDashboard = () => {
     { id: 8, name: 'Metro Service Hub', zone: 'north', carsServiced: 190, rating: 4.8 },
   ];
 
-  // Mock service types data
+  // Mock service types data with colors
   const serviceTypesData = [
-    { type: 'Regular Maintenance', count: 380, percentage: 45 },
-    { type: 'Major Repairs', count: 120, percentage: 14 },
-    { type: 'Warranty Service', count: 210, percentage: 25 },
-    { type: 'Accident Repairs', count: 85, percentage: 10 },
-    { type: 'Others', count: 50, percentage: 6 },
+    { type: 'Regular Maintenance', count: 380, percentage: 45, color: "bg-ds-primary-400" },
+    { type: 'Major Repairs', count: 120, percentage: 14, color: "bg-ds-error-500" },
+    { type: 'Warranty Service', count: 210, percentage: 25, color: "bg-ds-success-500" },
+    { type: 'Accident Repairs', count: 85, percentage: 10, color: "bg-ds-warning-500" },
+    { type: 'Others', count: 50, percentage: 6, color: "bg-ds-secondary-500" },
   ];
 
   // Filter service centers by zone
@@ -77,6 +78,33 @@ const ServiceDashboard = () => {
           <CardContent>
             <div className="text-2xl font-bold">4.7/5</div>
             <p className="text-xs text-muted-foreground mt-1">+0.2 from last month</p>
+          </CardContent>
+        </Card>
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        <div className="md:col-span-2">
+          <ColorSeparationDashboard serviceTypes={serviceTypesData} />
+        </div>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium">Service Center Status</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-ds-primary-400"></div>
+                <span className="text-sm">Active (8)</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-ds-warning-500"></div>
+                <span className="text-sm">Maintenance (2)</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-ds-error-500"></div>
+                <span className="text-sm">Offline (1)</span>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -204,7 +232,11 @@ const ServiceDashboard = () => {
                     <YAxis type="category" dataKey="type" width={100} />
                     <Tooltip formatter={(value) => [value, 'Count']} />
                     <Legend />
-                    <Bar dataKey="count" fill="hsl(var(--primary))" name="Number of Services" />
+                    <Bar dataKey="count" name="Number of Services">
+                      {serviceTypesData.map((entry, index) => (
+                        <cell key={`cell-${index}`} fill={`hsl(var(--${entry.color.replace('bg-', '')}))`} />
+                      ))}
+                    </Bar>
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -215,6 +247,7 @@ const ServiceDashboard = () => {
                       <TableHead>Service Type</TableHead>
                       <TableHead>Count</TableHead>
                       <TableHead>Percentage</TableHead>
+                      <TableHead>Status</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -223,6 +256,11 @@ const ServiceDashboard = () => {
                         <TableCell className="font-medium">{service.type}</TableCell>
                         <TableCell>{service.count}</TableCell>
                         <TableCell>{service.percentage}%</TableCell>
+                        <TableCell>
+                          <Badge className={service.color + " hover:" + service.color}>
+                            {service.percentage > 20 ? 'High Volume' : service.percentage > 10 ? 'Medium Volume' : 'Low Volume'}
+                          </Badge>
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
