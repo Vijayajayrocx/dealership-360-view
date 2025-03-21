@@ -14,7 +14,9 @@ type ColorVariant =
   | "gradient-blue"
   | "gradient-green"
   | "gradient-purple"
-  | "gradient-orange";
+  | "gradient-orange"
+  | "gradient-red"
+  | "gradient-rainbow";
 
 interface ColorfulCardProps {
   variant?: ColorVariant;
@@ -22,6 +24,7 @@ interface ColorfulCardProps {
   children: React.ReactNode;
   bordered?: boolean;
   hoverable?: boolean;
+  shadow?: "none" | "sm" | "md" | "lg";
 }
 
 const ColorfulCard: React.FC<ColorfulCardProps> = ({
@@ -30,6 +33,7 @@ const ColorfulCard: React.FC<ColorfulCardProps> = ({
   children,
   bordered = false,
   hoverable = false,
+  shadow = "none",
   ...props
 }) => {
   // Get background and text classes based on variant
@@ -50,13 +54,17 @@ const ColorfulCard: React.FC<ColorfulCardProps> = ({
       case "accent":
         return "bg-accent";
       case "gradient-blue":
-        return "bg-gradient-to-br from-blue-50 to-blue-100";
+        return "bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200";
       case "gradient-green":
-        return "bg-gradient-to-br from-ds-success-50 to-ds-success-100";
+        return "bg-gradient-to-br from-ds-success-50 via-ds-success-100 to-green-200";
       case "gradient-purple":
-        return "bg-gradient-to-br from-purple-50 to-purple-100";
+        return "bg-gradient-to-br from-purple-50 via-purple-100 to-purple-200";
       case "gradient-orange":
-        return "bg-gradient-to-br from-ds-warning-50 to-ds-warning-100";
+        return "bg-gradient-to-br from-ds-warning-50 via-ds-warning-100 to-orange-200";
+      case "gradient-red":
+        return "bg-gradient-to-br from-ds-error-50 via-ds-error-100 to-red-200";
+      case "gradient-rainbow":
+        return "bg-gradient-to-r from-red-100 via-yellow-100 via-green-100 via-blue-100 to-purple-100";
       default:
         return "";
     }
@@ -80,6 +88,18 @@ const ColorfulCard: React.FC<ColorfulCardProps> = ({
         return "border-blue-200";
       case "accent":
         return "border-accent/30";
+      case "gradient-blue":
+        return "border-blue-200";
+      case "gradient-green":
+        return "border-green-200";
+      case "gradient-purple":
+        return "border-purple-200";
+      case "gradient-orange":
+        return "border-orange-200";
+      case "gradient-red":
+        return "border-red-200";
+      case "gradient-rainbow":
+        return "border-purple-200";
       default:
         return "border-muted";
     }
@@ -88,7 +108,20 @@ const ColorfulCard: React.FC<ColorfulCardProps> = ({
   const getHoverClass = () => {
     if (!hoverable) return "";
     
-    return "transition-all duration-200 hover:shadow-md";
+    return "transition-all duration-200 hover:shadow-md hover:-translate-y-1";
+  };
+
+  const getShadowClass = () => {
+    switch (shadow) {
+      case "sm":
+        return "shadow-sm";
+      case "md":
+        return "shadow-md";
+      case "lg":
+        return "shadow-lg";
+      default:
+        return "";
+    }
   };
 
   return (
@@ -97,6 +130,7 @@ const ColorfulCard: React.FC<ColorfulCardProps> = ({
         getBgClass(),
         getBorderClass(),
         getHoverClass(),
+        getShadowClass(),
         className
       )}
       {...props}

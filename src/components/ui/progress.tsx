@@ -7,8 +7,8 @@ import { cn } from "@/lib/utils"
 interface ProgressProps extends React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root> {
   indicatorClassName?: string;
   variant?: "default" | "success" | "warning" | "error" | "primary" | "secondary" | "accent";
-  showValue?: boolean;
   size?: "sm" | "md" | "lg";
+  showValue?: boolean;
   showAnimation?: boolean;
 }
 

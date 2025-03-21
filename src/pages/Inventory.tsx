@@ -1,8 +1,9 @@
 
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { ColorfulCard, CardContent, CardHeader, CardTitle } from "@/components/ui/colorful-card";
+import { Progress } from "@/components/ui/progress";
 
 const Inventory = () => {
   // Mock inventory data
@@ -14,85 +15,113 @@ const Inventory = () => {
     { id: '5', make: 'Nissan', model: 'Altima', year: 2023, color: 'White', stock: 1, price: 26499 },
   ];
 
+  // Calculate stock levels
+  const getTotalStock = () => inventory.reduce((acc, item) => acc + item.stock, 0);
+  const getLowStockCount = () => inventory.filter(item => item.stock <= 2).length;
+  const getInventoryValue = () => inventory.reduce((acc, item) => acc + (item.price * item.stock), 0);
+
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">Inventory Management</h1>
-      
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-        <Card className="bg-card border border-border">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Total Vehicles</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-card-foreground">15</div>
-          </CardContent>
-        </Card>
-        
-        <Card className="bg-card border border-border">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Low Stock</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-card-foreground">3</div>
-          </CardContent>
-        </Card>
-        
-        <Card className="bg-card border border-border">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Inventory Value</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-card-foreground">$402,395</div>
-          </CardContent>
-        </Card>
-        
-        <Card className="bg-card border border-border">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Avg. Days in Inventory</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-card-foreground">32</div>
-          </CardContent>
-        </Card>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold text-ds-primary-800">Inventory Management</h1>
+        <Badge variant="primary" className="text-sm py-1 px-3">Last updated: Today</Badge>
       </div>
       
-      <Card className="bg-card border border-border">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+        <ColorfulCard variant="primary" hoverable bordered>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-ds-primary-700">Total Vehicles</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-ds-primary-800">{getTotalStock()}</div>
+            <Progress value={80} variant="primary" size="sm" className="mt-2" />
+          </CardContent>
+        </ColorfulCard>
+        
+        <ColorfulCard variant="error" hoverable bordered>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-ds-error-700">Low Stock</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-ds-error-800">{getLowStockCount()}</div>
+            <Progress value={(getLowStockCount() / inventory.length) * 100} variant="error" size="sm" className="mt-2" />
+          </CardContent>
+        </ColorfulCard>
+        
+        <ColorfulCard variant="success" hoverable bordered>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-ds-success-700">Inventory Value</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-ds-success-800">${getInventoryValue().toLocaleString()}</div>
+            <Progress value={65} variant="success" size="sm" className="mt-2" />
+          </CardContent>
+        </ColorfulCard>
+        
+        <ColorfulCard variant="warning" hoverable bordered>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-ds-warning-700">Avg. Days in Inventory</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-ds-warning-800">32</div>
+            <Progress value={32} variant="warning" size="sm" className="mt-2" />
+          </CardContent>
+        </ColorfulCard>
+      </div>
+      
+      <ColorfulCard variant="gradient-blue" className="border-none shadow-md">
         <CardHeader>
-          <CardTitle className="text-card-foreground">Current Inventory</CardTitle>
+          <CardTitle className="text-ds-primary-800 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-ds-primary"><path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"></path><path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9"></path><path d="M12 3v6"></path></svg>
+            Current Inventory
+          </CardTitle>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow className="border-border">
-                <TableHead>Make</TableHead>
-                <TableHead>Model</TableHead>
-                <TableHead>Year</TableHead>
-                <TableHead>Color</TableHead>
-                <TableHead>Stock</TableHead>
-                <TableHead className="text-right">Price</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {inventory.map((item) => (
-                <TableRow key={item.id} className="border-border">
-                  <TableCell className="font-medium">{item.make}</TableCell>
-                  <TableCell>{item.model}</TableCell>
-                  <TableCell>{item.year}</TableCell>
-                  <TableCell>{item.color}</TableCell>
-                  <TableCell>
-                    {item.stock <= 2 ? (
-                      <Badge variant="destructive">{item.stock}</Badge>
-                    ) : (
-                      item.stock
-                    )}
-                  </TableCell>
-                  <TableCell className="text-right">${item.price.toLocaleString()}</TableCell>
+          <div className="rounded-lg overflow-hidden border border-blue-100">
+            <Table>
+              <TableHeader className="bg-ds-primary-50">
+                <TableRow className="border-ds-primary-100">
+                  <TableHead className="text-ds-primary-800">Make</TableHead>
+                  <TableHead className="text-ds-primary-800">Model</TableHead>
+                  <TableHead className="text-ds-primary-800">Year</TableHead>
+                  <TableHead className="text-ds-primary-800">Color</TableHead>
+                  <TableHead className="text-ds-primary-800">Stock</TableHead>
+                  <TableHead className="text-right text-ds-primary-800">Price</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {inventory.map((item) => (
+                  <TableRow key={item.id} className="border-blue-50 hover:bg-blue-50/50">
+                    <TableCell className="font-medium">{item.make}</TableCell>
+                    <TableCell>{item.model}</TableCell>
+                    <TableCell>{item.year}</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <div className={`w-3 h-3 rounded-full ${
+                          item.color.toLowerCase() === 'silver' ? 'bg-gray-300' :
+                          item.color.toLowerCase() === 'blue' ? 'bg-blue-500' :
+                          item.color.toLowerCase() === 'red' ? 'bg-red-500' :
+                          item.color.toLowerCase() === 'black' ? 'bg-black' :
+                          'bg-white border border-gray-300'
+                        }`}></div>
+                        {item.color}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      {item.stock <= 2 ? (
+                        <Badge variant="error">{item.stock}</Badge>
+                      ) : (
+                        <Badge variant="success">{item.stock}</Badge>
+                      )}
+                    </TableCell>
+                    <TableCell className="text-right font-medium">${item.price.toLocaleString()}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
-      </Card>
+      </ColorfulCard>
     </div>
   );
 };
