@@ -20,6 +20,10 @@ const badgeVariants = cva(
         warning: "border-transparent bg-ds-warning text-white hover:bg-ds-warning/80",
         error: "border-transparent bg-ds-error text-white hover:bg-ds-error/80",
         primary: "border-transparent bg-ds-primary text-white hover:bg-ds-primary/80",
+        "success-light": "border-ds-success/20 bg-ds-success/10 text-ds-success-800",
+        "warning-light": "border-ds-warning/20 bg-ds-warning/10 text-ds-warning-800",
+        "error-light": "border-ds-error/20 bg-ds-error/10 text-ds-error-800",
+        "primary-light": "border-ds-primary/20 bg-ds-primary/10 text-ds-primary-800",
       },
     },
     defaultVariants: {

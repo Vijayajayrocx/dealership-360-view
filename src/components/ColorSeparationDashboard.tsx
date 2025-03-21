@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -72,6 +73,21 @@ export const getColorForIndex = (index: number): string => {
   ];
   
   return colors[index % colors.length];
+};
+
+// Helper function to generate variant based on index
+export const getVariantForIndex = (index: number): "default" | "success" | "warning" | "error" | "primary" | "secondary" | "accent" => {
+  const variants: ("default" | "success" | "warning" | "error" | "primary" | "secondary" | "accent")[] = [
+    "primary", 
+    "success", 
+    "warning", 
+    "error", 
+    "secondary",
+    "accent",
+    "default"
+  ];
+  
+  return variants[index % variants.length];
 };
 
 export default ColorSeparationDashboard;

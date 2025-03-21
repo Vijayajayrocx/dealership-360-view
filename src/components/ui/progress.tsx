@@ -9,12 +9,22 @@ interface ProgressProps extends React.ComponentPropsWithoutRef<typeof ProgressPr
   variant?: "default" | "success" | "warning" | "error" | "primary" | "secondary" | "accent";
   showValue?: boolean;
   size?: "sm" | "md" | "lg";
+  showAnimation?: boolean;
 }
 
 const Progress = React.forwardRef<
   React.ElementRef<typeof ProgressPrimitive.Root>,
   ProgressProps
->(({ className, value, indicatorClassName, variant = "default", size = "md", showValue = false, ...props }, ref) => {
+>(({ 
+  className, 
+  value, 
+  indicatorClassName, 
+  variant = "default", 
+  size = "md", 
+  showValue = false,
+  showAnimation = false,
+  ...props 
+}, ref) => {
   // Map variant to color classes
   const getVariantClass = () => {
     switch (variant) {
@@ -61,6 +71,7 @@ const Progress = React.forwardRef<
         <ProgressPrimitive.Indicator
           className={cn(
             "h-full w-full flex-1 transition-all",
+            showAnimation && "animate-pulse",
             indicatorClassName || getVariantClass()
           )}
           style={{ transform: `translateX(-${100 - (value || 0)}%)` }}

@@ -23,6 +23,10 @@ const buttonVariants = cva(
         warning: "bg-ds-warning text-white hover:bg-ds-warning/90",
         error: "bg-ds-error text-white hover:bg-ds-error/90",
         info: "bg-ds-primary text-white hover:bg-ds-primary/90",
+        "success-outline": "border border-ds-success text-ds-success hover:bg-ds-success/10",
+        "warning-outline": "border border-ds-warning text-ds-warning hover:bg-ds-warning/10",
+        "error-outline": "border border-ds-error text-ds-error hover:bg-ds-error/10",
+        "info-outline": "border border-ds-primary text-ds-primary hover:bg-ds-primary/10",
       },
       size: {
         default: "h-10 px-4 py-2",

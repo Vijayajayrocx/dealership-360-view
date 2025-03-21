@@ -16,7 +16,7 @@ const TabsList = React.forwardRef<
     ref={ref}
     className={cn(
       "inline-flex h-10 items-center justify-center rounded-md p-1 text-muted-foreground",
-      variant === "default" ? "bg-muted" : "bg-transparent",
+      variant === "default" ? "bg-muted" : "bg-transparent space-x-1",
       className
     )}
     {...props}
@@ -33,17 +33,17 @@ const TabsTrigger = React.forwardRef<
   const getColorClasses = () => {
     switch (color) {
       case "primary":
-        return "data-[state=active]:bg-ds-primary-50 data-[state=active]:text-ds-primary-800";
+        return "data-[state=active]:bg-ds-primary-50 data-[state=active]:text-ds-primary-800 hover:bg-ds-primary-50/50";
       case "success":
-        return "data-[state=active]:bg-ds-success-50 data-[state=active]:text-ds-success-800";
+        return "data-[state=active]:bg-ds-success-50 data-[state=active]:text-ds-success-800 hover:bg-ds-success-50/50";
       case "warning":
-        return "data-[state=active]:bg-ds-warning-50 data-[state=active]:text-ds-warning-800";
+        return "data-[state=active]:bg-ds-warning-50 data-[state=active]:text-ds-warning-800 hover:bg-ds-warning-50/50";
       case "error":
-        return "data-[state=active]:bg-ds-error-50 data-[state=active]:text-ds-error-800";
+        return "data-[state=active]:bg-ds-error-50 data-[state=active]:text-ds-error-800 hover:bg-ds-error-50/50";
       case "secondary":
-        return "data-[state=active]:bg-ds-secondary-50 data-[state=active]:text-ds-secondary-800";
+        return "data-[state=active]:bg-ds-secondary-50 data-[state=active]:text-ds-secondary-800 hover:bg-ds-secondary-50/50";
       default:
-        return "data-[state=active]:bg-background data-[state=active]:text-foreground";
+        return "data-[state=active]:bg-background data-[state=active]:text-foreground hover:bg-muted/50";
     }
   };
 
