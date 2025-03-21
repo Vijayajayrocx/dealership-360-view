@@ -1,9 +1,10 @@
 
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Bell, Clock, Info, MessageSquare, ShieldAlert } from "lucide-react";
+import { Bell, Clock, Info, MessageSquare, ShieldAlert, CheckCircle2 } from "lucide-react";
 import { ColorfulCard } from '@/components/ui/colorful-card';
+import { Button } from '@/components/ui/button';
 
 const Notifications = () => {
   // Mock notifications data
@@ -52,11 +53,24 @@ const Notifications = () => {
 
   return (
     <div className="container mx-auto p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-ds-primary-700">Notifications</h1>
-        <Badge variant="secondary" className="bg-ds-primary-100 text-ds-primary-800 hover:bg-ds-primary-200">
-          {notifications.filter(n => !n.read).length} Unread
-        </Badge>
+      <div className="bg-gradient-to-r from-ds-primary-50 to-ds-primary-100 p-6 rounded-lg mb-6">
+        <div className="flex justify-between items-center">
+          <h1 className="text-3xl font-bold text-ds-primary-800">Notifications</h1>
+          <Badge variant="success" className="text-ds-success-800 bg-ds-success-100 hover:bg-ds-success-200">
+            {notifications.filter(n => !n.read).length} Unread
+          </Badge>
+        </div>
+        <p className="text-ds-primary-600 mt-2">
+          Stay updated with important alerts, messages, and reminders
+        </p>
+      </div>
+      
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-semibold text-ds-primary-700">Recent Notifications</h2>
+        <Button variant="outline" size="sm" className="text-ds-primary-600">
+          <CheckCircle2 className="mr-2 h-4 w-4" />
+          Mark All as Read
+        </Button>
       </div>
       
       <div className="space-y-4">
@@ -66,6 +80,7 @@ const Notifications = () => {
             variant={notification.variant as any} 
             className={notification.read ? "opacity-80" : ""}
             hoverable
+            shadow="sm"
           >
             <CardContent className="p-4">
               <div className="flex gap-4">
@@ -74,6 +89,9 @@ const Notifications = () => {
                   <div className="flex justify-between items-start">
                     <h3 className={`font-medium ${!notification.read ? "font-semibold" : ""}`}>
                       {notification.title}
+                      {!notification.read && (
+                        <span className="ml-2 inline-block w-2 h-2 bg-ds-primary-500 rounded-full"></span>
+                      )}
                     </h3>
                     <span className="text-xs text-muted-foreground flex items-center gap-1">
                       <Clock className="h-3 w-3" />

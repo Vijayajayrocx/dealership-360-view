@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import AlignmentMenu from "@/components/AlignmentMenu";
-import { InfoIcon, AlertCircleIcon, CalendarIcon, DownloadIcon, History as HistoryIcon } from "lucide-react";
+import { InfoIcon, AlertCircleIcon, CalendarIcon, DownloadIcon, History as HistoryIcon, X } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { ColorfulCard, CardContent, CardHeader, CardTitle } from "@/components/ui/colorful-card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -35,6 +35,13 @@ const AlignmentPage = () => {
     setHasSearched(true);
   };
 
+  const handleClearSearch = () => {
+    setStartDate(subMonths(new Date(), 6));
+    setEndDate(new Date());
+    setHistoryData([]);
+    setHasSearched(false);
+  };
+
   return (
     <div className="space-y-8">
       <div className="bg-gradient-to-r from-ds-primary-50 to-ds-primary-100 p-6 rounded-lg mb-6">
@@ -46,9 +53,9 @@ const AlignmentPage = () => {
       
       <Tabs defaultValue="tool">
         <TabsList variant="pills" className="mb-6">
-          <TabsTrigger value="tool" color="primary">Alignment Tool</TabsTrigger>
-          <TabsTrigger value="history" color="primary">History</TabsTrigger>
-          <TabsTrigger value="help" color="primary">Help & FAQs</TabsTrigger>
+          <TabsTrigger value="tool">Alignment Tool</TabsTrigger>
+          <TabsTrigger value="history">History</TabsTrigger>
+          <TabsTrigger value="help">Help & FAQs</TabsTrigger>
         </TabsList>
         
         <TabsContent value="tool">
@@ -173,10 +180,18 @@ const AlignmentPage = () => {
                     </Popover>
                   </div>
                 </div>
-                <div className="mt-4">
-                  <Button variant="primary" onClick={handleHistorySearch}>
+                <div className="mt-4 flex gap-2">
+                  <Button variant="info" onClick={handleHistorySearch}>
                     <HistoryIcon className="mr-2 h-4 w-4" />
                     Search History
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    onClick={handleClearSearch}
+                    className="border-ds-secondary-300 text-ds-secondary-700 hover:bg-ds-secondary-50"
+                  >
+                    <X className="mr-2 h-4 w-4" />
+                    Clear Search
                   </Button>
                 </div>
               </div>

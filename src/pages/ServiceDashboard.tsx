@@ -1,10 +1,12 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis, LineChart, Line, Cell } from 'recharts';
+import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis, LineChart, Line, Cell, PieChart, Pie } from 'recharts';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import ColorSeparationDashboard from '@/components/ColorSeparationDashboard';
+import { ColorfulCard } from '@/components/ui/colorful-card';
 
 const ServiceDashboard = () => {
   const [selectedZone, setSelectedZone] = useState('all');
@@ -34,12 +36,15 @@ const ServiceDashboard = () => {
 
   // Mock service types data with colors
   const serviceTypesData = [
-    { type: 'Regular Maintenance', count: 380, percentage: 45, color: "bg-ds-primary-400" },
-    { type: 'Major Repairs', count: 120, percentage: 14, color: "bg-ds-error-500" },
-    { type: 'Warranty Service', count: 210, percentage: 25, color: "bg-ds-success-500" },
-    { type: 'Accident Repairs', count: 85, percentage: 10, color: "bg-ds-warning-500" },
-    { type: 'Others', count: 50, percentage: 6, color: "bg-ds-secondary-500" },
+    { type: 'Regular Maintenance', count: 380, percentage: 45, color: "#4787EC" }, // bright blue
+    { type: 'Major Repairs', count: 120, percentage: 14, color: "#E54D4D" }, // bright red
+    { type: 'Warranty Service', count: 210, percentage: 25, color: "#47C18C" }, // bright green
+    { type: 'Accident Repairs', count: 85, percentage: 10, color: "#F8B94A" }, // bright orange
+    { type: 'Others', count: 50, percentage: 6, color: "#6C6D76" }, // gray
   ];
+
+  // Color palette for charts
+  const colorPalette = ['#4787EC', '#47C18C', '#F8B94A', '#E54D4D', '#9747EC'];
 
   // Filter service centers by zone
   const filteredServiceCenters = selectedZone === 'all'
@@ -51,62 +56,86 @@ const ServiceDashboard = () => {
       <h1 className="text-2xl font-bold mb-6">Service Dashboard</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-        <Card>
+        <ColorfulCard variant="primary" shadow="md">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Cars Serviced</CardTitle>
+            <CardTitle className="text-sm font-medium text-ds-primary-800">Cars Serviced</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">845</div>
-            <p className="text-xs text-muted-foreground mt-1">+12% from last month</p>
+            <div className="text-2xl font-bold text-ds-primary-700">845</div>
+            <p className="text-xs text-ds-primary-600 mt-1">+12% from last month</p>
           </CardContent>
-        </Card>
+        </ColorfulCard>
         
-        <Card>
+        <ColorfulCard variant="success" shadow="md">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Avg. Service Time</CardTitle>
+            <CardTitle className="text-sm font-medium text-ds-success-800">Avg. Service Time</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">3.2 days</div>
-            <p className="text-xs text-muted-foreground mt-1">-0.5 days from last month</p>
+            <div className="text-2xl font-bold text-ds-success-700">3.2 days</div>
+            <p className="text-xs text-ds-success-600 mt-1">-0.5 days from last month</p>
           </CardContent>
-        </Card>
+        </ColorfulCard>
         
-        <Card>
+        <ColorfulCard variant="warning" shadow="md">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Customer Satisfaction</CardTitle>
+            <CardTitle className="text-sm font-medium text-ds-warning-800">Customer Satisfaction</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">4.7/5</div>
-            <p className="text-xs text-muted-foreground mt-1">+0.2 from last month</p>
+            <div className="text-2xl font-bold text-ds-warning-700">4.7/5</div>
+            <p className="text-xs text-ds-warning-600 mt-1">+0.2 from last month</p>
           </CardContent>
-        </Card>
+        </ColorfulCard>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <div className="md:col-span-2">
           <ColorSeparationDashboard serviceTypes={serviceTypesData} />
         </div>
-        <Card>
+        <ColorfulCard variant="gradient-blue" shadow="md">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Service Center Status</CardTitle>
+            <CardTitle className="text-sm font-medium text-ds-primary-800">Service Center Status</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-ds-primary-400"></div>
-                <span className="text-sm">Active (8)</span>
+                <span className="text-sm text-ds-primary-800">Active (8)</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-ds-warning-500"></div>
-                <span className="text-sm">Maintenance (2)</span>
+                <span className="text-sm text-ds-warning-800">Maintenance (2)</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-ds-error-500"></div>
-                <span className="text-sm">Offline (1)</span>
+                <span className="text-sm text-ds-error-800">Offline (1)</span>
               </div>
             </div>
+            <div className="mt-4 h-40">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={[
+                      { name: 'Active', value: 8 },
+                      { name: 'Maintenance', value: 2 },
+                      { name: 'Offline', value: 1 }
+                    ]}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={30}
+                    outerRadius={60}
+                    paddingAngle={5}
+                    dataKey="value"
+                  >
+                    <Cell fill="#4787EC" />
+                    <Cell fill="#F8B94A" />
+                    <Cell fill="#E54D4D" />
+                  </Pie>
+                  <Tooltip formatter={(value, name) => [value, name]} />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
           </CardContent>
-        </Card>
+        </ColorfulCard>
       </div>
       
       <Tabs defaultValue="overview" className="mb-6">
@@ -118,7 +147,7 @@ const ServiceDashboard = () => {
         
         <TabsContent value="overview">
           <div className="grid grid-cols-1 gap-6">
-            <Card>
+            <ColorfulCard variant="gradient-blue" shadow="md">
               <CardHeader>
                 <CardTitle>Service Metrics</CardTitle>
                 <CardDescription>Monthly service counts and satisfaction ratings</CardDescription>
@@ -127,38 +156,42 @@ const ServiceDashboard = () => {
                 <div className="h-80">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={serviceMetrics} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                      <CartesianGrid strokeDasharray="3 3" />
+                      <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
                       <XAxis dataKey="month" />
                       <YAxis yAxisId="left" />
                       <YAxis yAxisId="right" orientation="right" domain={[0, 5]} />
-                      <Tooltip />
+                      <Tooltip contentStyle={{ backgroundColor: 'white', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)' }} />
                       <Legend />
                       <Line 
                         yAxisId="left" 
                         type="monotone" 
                         dataKey="serviced" 
-                        stroke="hsl(var(--primary))" 
+                        stroke="#4787EC"
                         name="Cars Serviced"
-                        strokeWidth={2} 
+                        strokeWidth={3} 
+                        dot={{ stroke: '#4787EC', strokeWidth: 2, r: 4, fill: 'white' }}
+                        activeDot={{ r: 8, stroke: '#4787EC', strokeWidth: 2, fill: '#4787EC' }}
                       />
                       <Line 
                         yAxisId="right" 
                         type="monotone" 
                         dataKey="satisfaction" 
-                        stroke="hsl(var(--sidebar-primary))" 
+                        stroke="#47C18C"
                         name="Satisfaction (1-5)"
-                        strokeWidth={2} 
+                        strokeWidth={3}
+                        dot={{ stroke: '#47C18C', strokeWidth: 2, r: 4, fill: 'white' }}
+                        activeDot={{ r: 8, stroke: '#47C18C', strokeWidth: 2, fill: '#47C18C' }}
                       />
                     </LineChart>
                   </ResponsiveContainer>
                 </div>
               </CardContent>
-            </Card>
+            </ColorfulCard>
           </div>
         </TabsContent>
 
         <TabsContent value="centers">
-          <Card>
+          <ColorfulCard variant="secondary" shadow="md">
             <CardHeader>
               <CardTitle className="flex justify-between items-center">
                 <span>Service Centers Performance</span>
@@ -167,7 +200,7 @@ const ServiceDashboard = () => {
                   <select
                     value={selectedZone}
                     onChange={(e) => setSelectedZone(e.target.value)}
-                    className="text-sm border rounded p-1"
+                    className="text-sm border rounded p-1 bg-white"
                   >
                     <option value="all">All Zones</option>
                     <option value="north">North Zone</option>
@@ -183,6 +216,21 @@ const ServiceDashboard = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
+              <div className="h-60 mb-6">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    data={filteredServiceCenters}
+                    margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+                    <XAxis dataKey="name" angle={-45} textAnchor="end" height={70} />
+                    <YAxis />
+                    <Tooltip contentStyle={{ backgroundColor: 'white', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)' }} />
+                    <Legend />
+                    <Bar dataKey="carsServiced" name="Cars Serviced" fill="#4787EC" radius={[4, 4, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -202,9 +250,9 @@ const ServiceDashboard = () => {
                       <TableCell>{center.rating} / 5</TableCell>
                       <TableCell>
                         {center.rating >= 4.5 ? (
-                          <Badge className="bg-primary/90 hover:bg-primary">Premium</Badge>
+                          <Badge variant="success">Premium</Badge>
                         ) : center.rating >= 4.0 ? (
-                          <Badge className="bg-sidebar-primary hover:bg-sidebar-primary/90">Standard</Badge>
+                          <Badge variant="info">Standard</Badge>
                         ) : (
                           <Badge variant="outline">Basic</Badge>
                         )}
@@ -214,11 +262,11 @@ const ServiceDashboard = () => {
                 </TableBody>
               </Table>
             </CardContent>
-          </Card>
+          </ColorfulCard>
         </TabsContent>
 
         <TabsContent value="types">
-          <Card>
+          <ColorfulCard variant="secondary" shadow="md">
             <CardHeader>
               <CardTitle>Service Types Breakdown</CardTitle>
               <CardDescription>Distribution of different service types</CardDescription>
@@ -227,14 +275,17 @@ const ServiceDashboard = () => {
               <div className="h-80">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={serviceTypesData} layout="vertical" margin={{ top: 20, right: 30, left: 100, bottom: 5 }}>
-                    <CartesianGrid strokeDasharray="3 3" />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
                     <XAxis type="number" />
                     <YAxis type="category" dataKey="type" width={100} />
-                    <Tooltip formatter={(value) => [value, 'Count']} />
+                    <Tooltip 
+                      formatter={(value) => [value, 'Count']} 
+                      contentStyle={{ backgroundColor: 'white', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)' }}
+                    />
                     <Legend />
-                    <Bar dataKey="count" name="Number of Services">
+                    <Bar dataKey="count" name="Number of Services" radius={[0, 4, 4, 0]}>
                       {serviceTypesData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={`hsl(var(--${entry.color.replace('bg-', '')}))`} />
+                        <Cell key={`cell-${index}`} fill={entry.color} />
                       ))}
                     </Bar>
                   </BarChart>
@@ -257,7 +308,7 @@ const ServiceDashboard = () => {
                         <TableCell>{service.count}</TableCell>
                         <TableCell>{service.percentage}%</TableCell>
                         <TableCell>
-                          <Badge className={service.color + " hover:" + service.color}>
+                          <Badge style={{ backgroundColor: service.color, color: 'white' }}>
                             {service.percentage > 20 ? 'High Volume' : service.percentage > 10 ? 'Medium Volume' : 'Low Volume'}
                           </Badge>
                         </TableCell>
@@ -267,7 +318,7 @@ const ServiceDashboard = () => {
                 </Table>
               </div>
             </CardContent>
-          </Card>
+          </ColorfulCard>
         </TabsContent>
       </Tabs>
     </div>
