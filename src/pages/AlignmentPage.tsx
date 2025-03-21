@@ -1,13 +1,40 @@
 
-import React from "react";
+import React, { useState } from "react";
 import AlignmentMenu from "@/components/AlignmentMenu";
-import { InfoIcon, AlertCircleIcon } from "lucide-react";
+import { InfoIcon, AlertCircleIcon, CalendarIcon, DownloadIcon, History as HistoryIcon } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { ColorfulCard, CardContent, CardHeader, CardTitle } from "@/components/ui/colorful-card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { format, subMonths } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { alignmentData } from "@/data/alignmentData";
 
 const AlignmentPage = () => {
+  const [startDate, setStartDate] = useState<Date | undefined>(subMonths(new Date(), 6));
+  const [endDate, setEndDate] = useState<Date | undefined>(new Date());
+  const [historyData, setHistoryData] = useState<typeof alignmentData>([]);
+  const [hasSearched, setHasSearched] = useState(false);
+
+  const handleHistorySearch = () => {
+    if (!startDate || !endDate) return;
+    
+    const filtered = alignmentData.filter(item => 
+      item.status === 'history' &&
+      ((item.effectiveStartDate >= startDate && item.effectiveStartDate <= endDate) ||
+       (item.effectiveEndDate && item.effectiveEndDate >= startDate && item.effectiveEndDate <= endDate) ||
+       (item.effectiveStartDate <= startDate && 
+        item.effectiveEndDate && item.effectiveEndDate >= endDate))
+    );
+    
+    setHistoryData(filtered);
+    setHasSearched(true);
+  };
+
   return (
     <div className="space-y-8">
       <div className="bg-gradient-to-r from-ds-primary-50 to-ds-primary-100 p-6 rounded-lg mb-6">
@@ -86,15 +113,132 @@ const AlignmentPage = () => {
         <TabsContent value="history">
           <ColorfulCard variant="secondary" hoverable>
             <CardHeader>
-              <CardTitle>Alignment History</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground mb-4">
+              <CardTitle className="text-ds-secondary-800">Alignment History</CardTitle>
+              <p className="text-muted-foreground mt-2">
                 View historical alignment data and track changes over time.
               </p>
-              <div className="p-8 text-center text-muted-foreground">
-                <p>Select a date range to view historical alignment data</p>
+            </CardHeader>
+            <CardContent>
+              <div className="border rounded-md p-4 mb-6 bg-white bg-opacity-50">
+                <h3 className="text-lg font-medium mb-4 text-ds-secondary-800">Select Date Range</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-ds-secondary-700">Start Date</label>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          className={cn(
+                            "w-full justify-start text-left font-normal",
+                            !startDate && "text-muted-foreground"
+                          )}
+                        >
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          {startDate ? format(startDate, "PPP") : <span>Pick a date</span>}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={startDate}
+                          onSelect={setStartDate}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-ds-secondary-700">End Date</label>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          className={cn(
+                            "w-full justify-start text-left font-normal",
+                            !endDate && "text-muted-foreground"
+                          )}
+                        >
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          {endDate ? format(endDate, "PPP") : <span>Pick a date</span>}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={endDate}
+                          onSelect={setEndDate}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                </div>
+                <div className="mt-4">
+                  <Button variant="primary" onClick={handleHistorySearch}>
+                    <HistoryIcon className="mr-2 h-4 w-4" />
+                    Search History
+                  </Button>
+                </div>
               </div>
+              
+              {hasSearched && (
+                <div className="border rounded-md">
+                  <div className="flex items-center justify-between p-4 border-b">
+                    <h3 className="text-lg font-medium text-ds-secondary-800">
+                      Historical Alignment Data
+                    </h3>
+                    <Button variant="outline" size="sm">
+                      <DownloadIcon className="mr-2 h-4 w-4" />
+                      Download
+                    </Button>
+                  </div>
+                  
+                  {historyData.length > 0 ? (
+                    <div className="p-4 overflow-x-auto">
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>Alignment Name</TableHead>
+                            <TableHead>Dealer Name</TableHead>
+                            <TableHead>Location</TableHead>
+                            <TableHead>Start Date</TableHead>
+                            <TableHead>End Date</TableHead>
+                            <TableHead>Zone</TableHead>
+                            <TableHead>District</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {historyData.map((item) => (
+                            <TableRow key={item.id}>
+                              <TableCell>{item.alignmentName}</TableCell>
+                              <TableCell>{item.dealerName}</TableCell>
+                              <TableCell>{item.location}</TableCell>
+                              <TableCell>{format(item.effectiveStartDate, "PP")}</TableCell>
+                              <TableCell>
+                                {item.effectiveEndDate ? format(item.effectiveEndDate, "PP") : "-"}
+                              </TableCell>
+                              <TableCell>{item.zone}</TableCell>
+                              <TableCell>{item.district}</TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </div>
+                  ) : (
+                    <div className="p-8 text-center text-muted-foreground">
+                      <p>No historical alignment data found for the selected date range</p>
+                      <p className="text-sm mt-2">Try adjusting your date range or check the data in the Alignment Tool</p>
+                    </div>
+                  )}
+                </div>
+              )}
+              
+              {!hasSearched && (
+                <div className="p-8 text-center text-muted-foreground">
+                  <HistoryIcon className="mx-auto h-12 w-12 mb-4 text-ds-secondary-300" />
+                  <p>Select a date range to view historical alignment data</p>
+                </div>
+              )}
             </CardContent>
           </ColorfulCard>
         </TabsContent>
@@ -102,20 +246,32 @@ const AlignmentPage = () => {
         <TabsContent value="help">
           <ColorfulCard variant="gradient-blue" hoverable>
             <CardHeader>
-              <CardTitle>Help & FAQs</CardTitle>
+              <CardTitle className="text-ds-primary-800">Help & FAQs</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                <div className="bg-white p-4 rounded-lg border border-blue-100">
+                <div className="bg-white p-4 rounded-lg border border-ds-primary-100">
                   <h3 className="font-semibold text-ds-primary-800 mb-2">What is an alignment?</h3>
                   <p className="text-ds-secondary-600">
                     Alignments are agreements between dealerships and Ford Motor Company that outline sales targets, inventory requirements, and promotional activities.
                   </p>
                 </div>
-                <div className="bg-white p-4 rounded-lg border border-blue-100">
+                <div className="bg-white p-4 rounded-lg border border-ds-primary-100">
                   <h3 className="font-semibold text-ds-primary-800 mb-2">How do I download alignment data?</h3>
                   <p className="text-ds-secondary-600">
                     After selecting your filters in the Alignment Tool, click the "Download" button to export the data as a CSV file.
+                  </p>
+                </div>
+                <div className="bg-white p-4 rounded-lg border border-ds-primary-100">
+                  <h3 className="font-semibold text-ds-primary-800 mb-2">Why can't I see historical data?</h3>
+                  <p className="text-ds-secondary-600">
+                    Historical data is available for completed alignments only. Make sure you've selected the correct date range in the History tab. Typically, alignments have a lifecycle of 12 months.
+                  </p>
+                </div>
+                <div className="bg-white p-4 rounded-lg border border-ds-primary-100">
+                  <h3 className="font-semibold text-ds-primary-800 mb-2">How often is alignment data updated?</h3>
+                  <p className="text-ds-secondary-600">
+                    Alignment data is typically updated on a monthly basis, with new alignments being added at the beginning of each month.
                   </p>
                 </div>
               </div>

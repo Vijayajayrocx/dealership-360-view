@@ -1,10 +1,13 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { ColorfulCard, CardContent as ColorfulCardContent } from "@/components/ui/colorful-card";
 import { useAuth } from "@/contexts/AuthContext";
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis, PieChart, Pie, Cell } from 'recharts';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 
 const SalesDashboard = () => {
   const { user } = useAuth();
@@ -50,89 +53,107 @@ const SalesDashboard = () => {
   }));
 
   const ZONE_COLORS = [
-    'hsl(var(--primary))', 
-    'hsl(var(--sidebar-primary))', 
-    'hsl(var(--accent))', 
-    'hsl(var(--muted))'
+    'hsl(var(--ds-primary))', 
+    'hsl(var(--ds-success))', 
+    'hsl(var(--ds-warning))', 
+    'hsl(var(--ds-error))'
   ];
 
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">Sales Dashboard</h1>
+      <div className="bg-gradient-to-r from-ds-primary-50 to-ds-primary-100 p-6 rounded-lg mb-6">
+        <h1 className="text-2xl font-bold mb-2 text-ds-primary-800">Sales Dashboard</h1>
+        <p className="text-ds-primary-600">
+          Track your sales performance and dealership metrics in real-time
+        </p>
+      </div>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Total Sales</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">$436,000</div>
-            <p className="text-xs text-muted-foreground mt-1">+12% from last month</p>
-          </CardContent>
-        </Card>
+        <ColorfulCard variant="gradient-blue" hoverable>
+          <ColorfulCardContent>
+            <div className="flex flex-col">
+              <span className="text-sm font-medium text-ds-primary-800">Total Sales</span>
+              <div className="text-2xl font-bold mt-2">$436,000</div>
+              <div className="flex items-center mt-1">
+                <span className="text-xs text-ds-success-600 font-medium">+12% from last month</span>
+                <Progress value={80} size="sm" variant="success" className="mt-2" />
+              </div>
+            </div>
+          </ColorfulCardContent>
+        </ColorfulCard>
         
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Vehicles Sold</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">28</div>
-            <p className="text-xs text-muted-foreground mt-1">+4 from last month</p>
-          </CardContent>
-        </Card>
+        <ColorfulCard variant="gradient-green" hoverable>
+          <ColorfulCardContent>
+            <div className="flex flex-col">
+              <span className="text-sm font-medium text-ds-success-800">Vehicles Sold</span>
+              <div className="text-2xl font-bold mt-2">28</div>
+              <div className="flex items-center mt-1">
+                <span className="text-xs text-ds-success-600 font-medium">+4 from last month</span>
+                <Progress value={70} size="sm" variant="success" className="mt-2" />
+              </div>
+            </div>
+          </ColorfulCardContent>
+        </ColorfulCard>
         
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Average Sale Price</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">$15,571</div>
-            <p className="text-xs text-muted-foreground mt-1">-2% from last month</p>
-          </CardContent>
-        </Card>
+        <ColorfulCard variant="gradient-orange" hoverable>
+          <ColorfulCardContent>
+            <div className="flex flex-col">
+              <span className="text-sm font-medium text-ds-warning-800">Average Sale Price</span>
+              <div className="text-2xl font-bold mt-2">$15,571</div>
+              <div className="flex items-center mt-1">
+                <span className="text-xs text-ds-error-600 font-medium">-2% from last month</span>
+                <Progress value={45} size="sm" variant="error" className="mt-2" />
+              </div>
+            </div>
+          </ColorfulCardContent>
+        </ColorfulCard>
       </div>
 
       <Tabs defaultValue="overview" className="mb-6">
-        <TabsList className="mb-4">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="zones">Zone Analysis</TabsTrigger>
-          <TabsTrigger value="dealers">Dealer Performance</TabsTrigger>
+        <TabsList className="mb-4" variant="pills">
+          <TabsTrigger value="overview" color="primary">Overview</TabsTrigger>
+          <TabsTrigger value="zones" color="primary">Zone Analysis</TabsTrigger>
+          <TabsTrigger value="dealers" color="primary">Dealer Performance</TabsTrigger>
         </TabsList>
         
         <TabsContent value="overview">
-          <Card className="mb-6">
+          <ColorfulCard variant="primary" hoverable className="mb-6">
             <CardHeader>
-              <CardTitle>Sales Performance</CardTitle>
+              <CardTitle className="text-ds-primary-800">Sales Performance</CardTitle>
               <CardDescription>Monthly sales figures for the current year</CardDescription>
             </CardHeader>
-            <CardContent>
+            <ColorfulCardContent>
               <div className="h-80">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={salesData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                    <CartesianGrid strokeDasharray="3 3" />
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.1)" />
                     <XAxis dataKey="month" />
                     <YAxis />
                     <Tooltip 
                       formatter={(value) => [`$${value.toLocaleString()}`, 'Sales']}
                       labelFormatter={(label) => `Month: ${label}`}
+                      contentStyle={{ 
+                        backgroundColor: 'white',
+                        borderColor: 'hsl(var(--ds-primary-200))'
+                      }}
                     />
                     <Legend />
-                    <Bar dataKey="sales" fill="hsl(var(--primary))" name="Sales ($)" />
+                    <Bar dataKey="sales" fill="hsl(var(--ds-primary))" name="Sales ($)" />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
-            </CardContent>
-          </Card>
+            </ColorfulCardContent>
+          </ColorfulCard>
         </TabsContent>
 
         <TabsContent value="zones">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card>
+            <ColorfulCard variant="secondary" hoverable>
               <CardHeader>
-                <CardTitle>Zone Sales Distribution</CardTitle>
+                <CardTitle className="text-ds-secondary-800">Zone Sales Distribution</CardTitle>
                 <CardDescription>Sales breakdown by geographical zones</CardDescription>
               </CardHeader>
-              <CardContent>
+              <ColorfulCardContent>
                 <div className="h-80 flex items-center justify-center">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
@@ -154,53 +175,55 @@ const SalesDashboard = () => {
                     </PieChart>
                   </ResponsiveContainer>
                 </div>
-              </CardContent>
-            </Card>
+              </ColorfulCardContent>
+            </ColorfulCard>
 
-            <Card>
+            <ColorfulCard variant="success" hoverable>
               <CardHeader>
-                <CardTitle>Zone Details</CardTitle>
+                <CardTitle className="text-ds-success-800">Zone Details</CardTitle>
                 <CardDescription>Performance metrics for each zone</CardDescription>
               </CardHeader>
-              <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Zone</TableHead>
-                      <TableHead>Total Sales</TableHead>
-                      <TableHead>Dealers</TableHead>
-                      <TableHead>Avg. per Dealer</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {zoneData.map((zone) => (
-                      <TableRow key={zone.id}>
-                        <TableCell className="font-medium">{zone.name}</TableCell>
-                        <TableCell>${zone.totalSales.toLocaleString()}</TableCell>
-                        <TableCell>{zone.dealersCount}</TableCell>
-                        <TableCell>
-                          ${Math.round(zone.totalSales / zone.dealersCount).toLocaleString()}
-                        </TableCell>
+              <ColorfulCardContent className="overflow-hidden">
+                <div className="bg-white bg-opacity-50 rounded-md overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Zone</TableHead>
+                        <TableHead>Total Sales</TableHead>
+                        <TableHead>Dealers</TableHead>
+                        <TableHead>Avg. per Dealer</TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
+                    </TableHeader>
+                    <TableBody>
+                      {zoneData.map((zone) => (
+                        <TableRow key={zone.id}>
+                          <TableCell className="font-medium">{zone.name}</TableCell>
+                          <TableCell>${zone.totalSales.toLocaleString()}</TableCell>
+                          <TableCell>{zone.dealersCount}</TableCell>
+                          <TableCell>
+                            ${Math.round(zone.totalSales / zone.dealersCount).toLocaleString()}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </ColorfulCardContent>
+            </ColorfulCard>
           </div>
         </TabsContent>
 
         <TabsContent value="dealers">
-          <Card>
+          <ColorfulCard variant="gradient-blue" hoverable>
             <CardHeader>
-              <CardTitle className="flex justify-between items-center">
+              <CardTitle className="flex justify-between items-center text-ds-primary-800">
                 <span>Dealer Performance</span>
                 <div className="flex items-center space-x-2">
-                  <span className="text-sm font-normal text-muted-foreground">Filter by Zone:</span>
+                  <span className="text-sm font-normal text-ds-primary-600">Filter by Zone:</span>
                   <select
                     value={selectedZone}
                     onChange={(e) => setSelectedZone(e.target.value)}
-                    className="text-sm border rounded p-1"
+                    className="text-sm border rounded p-1 border-ds-primary-200 bg-white"
                   >
                     <option value="all">All Zones</option>
                     <option value="north">North Zone</option>
@@ -215,35 +238,37 @@ const SalesDashboard = () => {
                 {selectedZone !== 'all' && ` in ${selectedZone.charAt(0).toUpperCase() + selectedZone.slice(1)} Zone`}
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Dealer Name</TableHead>
-                    <TableHead>Zone</TableHead>
-                    <TableHead>Cars Sold</TableHead>
-                    <TableHead>Status</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredDealers.map((dealer) => (
-                    <TableRow key={dealer.id}>
-                      <TableCell className="font-medium">{dealer.name}</TableCell>
-                      <TableCell className="capitalize">{dealer.zone}</TableCell>
-                      <TableCell>{dealer.salesCount}</TableCell>
-                      <TableCell>
-                        {dealer.qualified ? (
-                          <Badge className="bg-primary/90 hover:bg-primary">Premium Dealer</Badge>
-                        ) : (
-                          <Badge variant="outline">Standard</Badge>
-                        )}
-                      </TableCell>
+            <ColorfulCardContent className="overflow-hidden">
+              <div className="bg-white bg-opacity-50 rounded-md overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Dealer Name</TableHead>
+                      <TableHead>Zone</TableHead>
+                      <TableHead>Cars Sold</TableHead>
+                      <TableHead>Status</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredDealers.map((dealer) => (
+                      <TableRow key={dealer.id}>
+                        <TableCell className="font-medium">{dealer.name}</TableCell>
+                        <TableCell className="capitalize">{dealer.zone}</TableCell>
+                        <TableCell>{dealer.salesCount}</TableCell>
+                        <TableCell>
+                          {dealer.qualified ? (
+                            <Badge variant="success">Premium Dealer</Badge>
+                          ) : (
+                            <Badge variant="outline">Standard</Badge>
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </ColorfulCardContent>
+          </ColorfulCard>
         </TabsContent>
       </Tabs>
     </div>
