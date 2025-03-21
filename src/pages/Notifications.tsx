@@ -3,6 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Bell, Clock, Info, MessageSquare, ShieldAlert } from "lucide-react";
+import { ColorfulCard } from '@/components/ui/colorful-card';
 
 const Notifications = () => {
   // Mock notifications data
@@ -14,7 +15,8 @@ const Notifications = () => {
       message: 'Scheduled maintenance will occur on Saturday, August 20th from 2 AM to 4 AM EST.',
       time: '2 hours ago',
       read: false,
-      icon: <ShieldAlert className="h-5 w-5 text-ds-warning" />,
+      icon: <ShieldAlert className="h-5 w-5 text-ds-warning-500" />,
+      variant: 'warning'
     },
     {
       id: '2',
@@ -23,7 +25,8 @@ const Notifications = () => {
       message: '5 new vehicles have been added to your inventory.',
       time: '5 hours ago',
       read: false,
-      icon: <Info className="h-5 w-5 text-ds-primary" />,
+      icon: <Info className="h-5 w-5 text-ds-primary-500" />,
+      variant: 'primary'
     },
     {
       id: '3',
@@ -32,7 +35,8 @@ const Notifications = () => {
       message: 'Your recent inquiry has been responded to by our customer care team.',
       time: '1 day ago',
       read: true,
-      icon: <MessageSquare className="h-5 w-5 text-ds-secondary" />,
+      icon: <MessageSquare className="h-5 w-5 text-ds-secondary-500" />,
+      variant: 'secondary'
     },
     {
       id: '4',
@@ -41,22 +45,28 @@ const Notifications = () => {
       message: 'You are 80% towards your monthly sales target. Keep up the good work!',
       time: '2 days ago',
       read: true,
-      icon: <Clock className="h-5 w-5 text-ds-success" />,
+      icon: <Clock className="h-5 w-5 text-ds-success-500" />,
+      variant: 'success'
     },
   ];
 
   return (
     <div className="container mx-auto p-6">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Notifications</h1>
-        <Badge variant="secondary">
+        <h1 className="text-2xl font-bold text-ds-primary-700">Notifications</h1>
+        <Badge variant="secondary" className="bg-ds-primary-100 text-ds-primary-800 hover:bg-ds-primary-200">
           {notifications.filter(n => !n.read).length} Unread
         </Badge>
       </div>
       
       <div className="space-y-4">
         {notifications.map((notification) => (
-          <Card key={notification.id} className={notification.read ? "bg-background" : "bg-muted/30"}>
+          <ColorfulCard 
+            key={notification.id} 
+            variant={notification.variant as any} 
+            className={notification.read ? "opacity-80" : ""}
+            hoverable
+          >
             <CardContent className="p-4">
               <div className="flex gap-4">
                 <div className="mt-1">{notification.icon}</div>
@@ -74,20 +84,20 @@ const Notifications = () => {
                 </div>
               </div>
             </CardContent>
-          </Card>
+          </ColorfulCard>
         ))}
       </div>
       
       {notifications.length === 0 && (
-        <Card>
+        <ColorfulCard variant="gradient-blue">
           <CardContent className="flex flex-col items-center justify-center p-8">
-            <Bell className="h-12 w-12 text-muted-foreground mb-4" />
+            <Bell className="h-12 w-12 text-ds-primary-400 mb-4" />
             <CardTitle className="text-xl mb-2">No Notifications</CardTitle>
             <p className="text-muted-foreground text-center">
               You don't have any notifications at the moment. We'll notify you when something important happens.
             </p>
           </CardContent>
-        </Card>
+        </ColorfulCard>
       )}
     </div>
   );

@@ -49,7 +49,7 @@ const Index = () => {
           
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
-              variant="primary"
+              variant="info"
               size="lg"
               className="font-semibold"
               onClick={() => navigate('/dashboard')}
@@ -58,7 +58,7 @@ const Index = () => {
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
             <Button 
-              variant="primary-outline" 
+              variant="info-outline" 
               size="lg"
               onClick={() => navigate('/login')}
             >

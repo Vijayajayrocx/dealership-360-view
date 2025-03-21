@@ -6,6 +6,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/components/ui/use-toast";
+import { ColorfulCard } from '@/components/ui/colorful-card';
+import { UserSearch, UserPlus, UserCheck, Users } from 'lucide-react';
 
 // Sample data - in a real app, this would come from an API
 const initialContacts = [
@@ -104,46 +106,55 @@ const ContactBook = () => {
 
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">Contact Book</h1>
+      <h1 className="text-2xl font-bold mb-6 text-ds-primary-700 flex items-center">
+        <Users className="mr-2 h-6 w-6" /> Contact Book
+      </h1>
       
       <div className="flex justify-between items-center mb-4">
-        <Button onClick={handleFindDuplicates} variant="default">
+        <Button onClick={handleFindDuplicates} variant="info" className="flex items-center">
+          <UserSearch className="mr-2 h-4 w-4" /> 
           Find Duplicate Contacts
         </Button>
       </div>
 
-      <Card>
+      <ColorfulCard variant="gradient-blue" hoverable>
         <CardHeader>
-          <CardTitle>Contacts</CardTitle>
+          <CardTitle className="text-ds-primary-800 flex items-center">
+            <UserPlus className="mr-2 h-5 w-5" /> Contacts
+          </CardTitle>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>Phone</TableHead>
-                <TableHead>Company</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {contacts.map((contact) => (
-                <TableRow key={contact.id}>
-                  <TableCell className="font-medium">{contact.name}</TableCell>
-                  <TableCell>{contact.email}</TableCell>
-                  <TableCell>{contact.phone}</TableCell>
-                  <TableCell>{contact.company}</TableCell>
+          <div className="bg-white rounded-lg overflow-hidden">
+            <Table>
+              <TableHeader className="bg-ds-primary-50">
+                <TableRow>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Email</TableHead>
+                  <TableHead>Phone</TableHead>
+                  <TableHead>Company</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {contacts.map((contact) => (
+                  <TableRow key={contact.id} className="hover:bg-ds-primary-50/50">
+                    <TableCell className="font-medium text-ds-primary-700">{contact.name}</TableCell>
+                    <TableCell className="text-ds-secondary-700">{contact.email}</TableCell>
+                    <TableCell>{contact.phone}</TableCell>
+                    <TableCell>{contact.company}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
-      </Card>
+      </ColorfulCard>
 
       <Dialog open={mergeDialogOpen} onOpenChange={setMergeDialogOpen}>
-        <DialogContent className="sm:max-w-[600px]">
-          <DialogHeader>
-            <DialogTitle>Merge Duplicate Contacts</DialogTitle>
+        <DialogContent className="sm:max-w-[600px] bg-gradient-to-br from-white to-ds-primary-50">
+          <DialogHeader className="border-b pb-3">
+            <DialogTitle className="text-ds-primary-700 flex items-center">
+              <UserCheck className="mr-2 h-5 w-5" /> Merge Duplicate Contacts
+            </DialogTitle>
             <DialogDescription>
               We found potential duplicate contacts. Select which data to keep in the merged contact.
             </DialogDescription>
@@ -151,7 +162,7 @@ const ContactBook = () => {
           
           <div className="py-4">
             <Table>
-              <TableHeader>
+              <TableHeader className="bg-ds-primary-50">
                 <TableRow>
                   <TableHead className="w-[100px]">Select</TableHead>
                   <TableHead>Name</TableHead>
@@ -162,7 +173,7 @@ const ContactBook = () => {
               </TableHeader>
               <TableBody>
                 {selectedContacts.map((contact) => (
-                  <TableRow key={contact.id}>
+                  <TableRow key={contact.id} className="hover:bg-ds-primary-50/30">
                     <TableCell className="text-center">
                       <Checkbox
                         checked={mergedContact?.id === contact.id}
@@ -179,7 +190,7 @@ const ContactBook = () => {
             </Table>
           </div>
 
-          <DialogFooter>
+          <DialogFooter className="border-t pt-3">
             <Button variant="outline" onClick={() => setMergeDialogOpen(false)}>
               Cancel
             </Button>
@@ -193,6 +204,7 @@ const ContactBook = () => {
             <Button 
               onClick={handleMergeContacts}
               disabled={!mergedContact}
+              variant="info"
             >
               Merge Contacts
             </Button>
