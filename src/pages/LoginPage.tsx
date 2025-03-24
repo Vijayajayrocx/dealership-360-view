@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -25,26 +26,15 @@ const LoginPage = () => {
     setIsLoading(true);
     
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Pass both email and password to the login function as expected by AuthContext
+      await login(email, password);
       
-      if (email && password) {
-        // Pass both email and password to the login function as expected by AuthContext
-        await login(email, password);
-        
-        toast({
-          title: "Login successful",
-          description: "Welcome to the Ford Dealer Dashboard",
-        });
-        
-        navigate('/dashboard');
-      } else {
-        toast({
-          title: "Login failed",
-          description: "Please check your credentials and try again",
-          variant: "destructive",
-        });
-      }
+      toast({
+        title: "Login successful",
+        description: "Welcome to the Ford Dealer Dashboard",
+      });
+      
+      // The navigation to dashboard will happen in the AuthContext
     } catch (error) {
       console.error('Login error:', error);
       toast({
@@ -68,7 +58,9 @@ const LoginPage = () => {
           <img 
             src="https://www.svgrepo.com/show/374006/ford.svg" 
             alt="Ford Logo" 
-            className="h-12 w-auto"
+            className="h-12 w-12"
+            width={48}
+            height={48}
           />
         </div>
         <h1 className="text-3xl font-bold text-ds-primary-800">Ford Dealer Dashboard</h1>

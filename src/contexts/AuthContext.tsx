@@ -1,3 +1,4 @@
+
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "@/components/ui/use-toast";
@@ -35,7 +36,7 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 const mockUsers = [
   {
     id: "1",
-    email: "dealer@example.com",
+    email: "demo@ford.com", // Updated to match the default demo email
     password: "password",
     name: "Ramakrishnan N",
     role: "dealer" as UserRole,
@@ -44,7 +45,7 @@ const mockUsers = [
     zone: "South",
     district: "Chennai",
     ssn: "XXX-XX-9876",
-    twoFactorEnabled: true,
+    twoFactorEnabled: false, // Disable 2FA for the demo user
     location: "Chennai, Tamil Nadu",
     dealerAdmin: "Suresh Kumar",
     specialization: "Luxury Vehicles"
@@ -91,10 +92,33 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [isLoading, user, location.pathname, navigate]);
 
-  const login = async (email: string, password: string, code?: string) => {
+  const login = async (email: string, password: string, code?: string): Promise<void> => {
     setIsLoading(true);
     
     try {
+      // For demo user, bypass 2FA
+      if (email === "demo@ford.com" && password === "password") {
+        const foundUser = mockUsers.find(u => u.email === email && u.password === password);
+        
+        if (foundUser) {
+          // Remove password before storing user
+          const { password: _, ...userWithoutPassword } = foundUser;
+          
+          setUser(userWithoutPassword);
+          localStorage.setItem("ds360_user", JSON.stringify(userWithoutPassword));
+          
+          toast({
+            title: "Login successful",
+            description: `Welcome back, ${foundUser.name}!`,
+          });
+          
+          setRequiresTwoFactor(false);
+          setPendingLogin(null);
+          navigate("/dashboard");
+          return;
+        }
+      }
+      
       // First step authentication
       if (!requiresTwoFactor) {
         const foundUser = mockUsers.find(u => u.email === email && u.password === password);
@@ -103,16 +127,32 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           throw new Error("Invalid email or password");
         }
         
-        // In a real app, we'd verify credentials with the server here
-        setRequiresTwoFactor(true);
-        setPendingLogin({email, password});
-        
-        toast({
-          title: "Two-factor authentication required",
-          description: "Please enter the verification code sent to your device",
-        });
-        
-        return;
+        // Check if 2FA is required for this user
+        if (foundUser.twoFactorEnabled) {
+          setRequiresTwoFactor(true);
+          setPendingLogin({email, password});
+          
+          toast({
+            title: "Two-factor authentication required",
+            description: "Please enter the verification code sent to your device",
+          });
+          
+          return;
+        } else {
+          // If 2FA is not required, log in directly
+          const { password: _, ...userWithoutPassword } = foundUser;
+          
+          setUser(userWithoutPassword);
+          localStorage.setItem("ds360_user", JSON.stringify(userWithoutPassword));
+          
+          toast({
+            title: "Login successful",
+            description: `Welcome back, ${foundUser.name}!`,
+          });
+          
+          navigate("/dashboard");
+          return;
+        }
       }
       
       // Second step authentication
