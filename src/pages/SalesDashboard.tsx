@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ColorfulCard, CardContent as ColorfulCardContent } from "@/components/ui/colorful-card";
 import { useAuth } from "@/contexts/AuthContext";
-import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis, PieChart, Pie, Cell } from 'recharts';
+import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis, PieChart, Pie, Cell, Sector } from 'recharts';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -12,6 +12,7 @@ import { Progress } from "@/components/ui/progress";
 const SalesDashboard = () => {
   const { user } = useAuth();
   const [selectedZone, setSelectedZone] = useState('all');
+  const [activeIndex, setActiveIndex] = useState(0);
   
   const salesData = [
     { month: 'Jan', sales: 65000 },
@@ -53,11 +54,56 @@ const SalesDashboard = () => {
   }));
 
   const ZONE_COLORS = [
-    'hsl(var(--ds-primary))', 
-    'hsl(var(--ds-success))', 
-    'hsl(var(--ds-warning))', 
-    'hsl(var(--ds-error))'
+    '#1E3A8A', // ds-primary-800
+    '#10B981', // ds-success-500  
+    '#F59E0B', // ds-warning-500
+    '#EF4444'  // ds-error-500
   ];
+
+  const renderActiveShape = (props: any) => {
+    const { cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle, fill, payload, percent, value } = props;
+    const sin = Math.sin(-midAngle * Math.PI / 180);
+    const cos = Math.cos(-midAngle * Math.PI / 180);
+    const sx = cx + (outerRadius + 10) * cos;
+    const sy = cy + (outerRadius + 10) * sin;
+    const mx = cx + (outerRadius + 30) * cos;
+    const my = cy + (outerRadius + 30) * sin;
+    const ex = mx + (cos >= 0 ? 1 : -1) * 22;
+    const ey = my;
+    const textAnchor = cos >= 0 ? 'start' : 'end';
+
+    return (
+      <g>
+        <Sector
+          cx={cx}
+          cy={cy}
+          innerRadius={innerRadius}
+          outerRadius={outerRadius}
+          startAngle={startAngle}
+          endAngle={endAngle}
+          fill={fill}
+        />
+        <Sector
+          cx={cx}
+          cy={cy}
+          startAngle={startAngle}
+          endAngle={endAngle}
+          innerRadius={outerRadius + 6}
+          outerRadius={outerRadius + 10}
+          fill={fill}
+        />
+        <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={fill} fill="none" />
+        <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
+        <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill="#333" fontSize={12}>{payload.name}</text>
+        <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} dy={18} textAnchor={textAnchor} fill="#999" fontSize={12}>
+          {`$${value.toLocaleString()}`}
+        </text>
+        <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} dy={36} textAnchor={textAnchor} fill="#999" fontSize={12}>
+          {`(${(percent * 100).toFixed(2)}%)`}
+        </text>
+      </g>
+    );
+  };
 
   return (
     <div className="container mx-auto p-6">
@@ -148,30 +194,46 @@ const SalesDashboard = () => {
 
         <TabsContent value="zones">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <ColorfulCard variant="secondary" hoverable>
+            <ColorfulCard variant="primary" hoverable>
               <CardHeader>
-                <CardTitle className="text-ds-secondary-800">Zone Sales Distribution</CardTitle>
+                <CardTitle className="text-ds-primary-800">Zone Sales Distribution</CardTitle>
                 <CardDescription>Sales breakdown by geographical zones</CardDescription>
               </CardHeader>
               <ColorfulCardContent>
-                <div className="h-80 flex items-center justify-center">
+                <div className="h-96 flex items-center justify-center">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
+                        activeIndex={activeIndex}
+                        activeShape={renderActiveShape}
                         data={zoneSalesDistribution}
                         cx="50%"
                         cy="50%"
-                        labelLine={false}
-                        outerRadius={100}
-                        fill="hsl(var(--muted))"
+                        innerRadius={60}
+                        outerRadius={80}
+                        fill="#8884d8"
+                        paddingAngle={5}
                         dataKey="value"
-                        label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                        onMouseEnter={(_, index) => setActiveIndex(index)}
                       >
                         {zoneSalesDistribution.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={ZONE_COLORS[index % ZONE_COLORS.length]} />
+                          <Cell 
+                            key={`cell-${index}`} 
+                            fill={ZONE_COLORS[index % ZONE_COLORS.length]} 
+                            stroke="white"
+                            strokeWidth={2}
+                          />
                         ))}
                       </Pie>
-                      <Tooltip formatter={(value) => [`$${value.toLocaleString()}`, 'Sales']} />
+                      <Tooltip 
+                        formatter={(value) => [`$${value.toLocaleString()}`, 'Sales']}
+                        contentStyle={{ 
+                          backgroundColor: 'white',
+                          borderColor: 'hsl(var(--ds-primary-200))',
+                          borderRadius: '8px',
+                          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
+                        }}
+                      />
                     </PieChart>
                   </ResponsiveContainer>
                 </div>
@@ -195,9 +257,17 @@ const SalesDashboard = () => {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {zoneData.map((zone) => (
-                        <TableRow key={zone.id}>
-                          <TableCell className="font-medium">{zone.name}</TableCell>
+                      {zoneData.map((zone, index) => (
+                        <TableRow key={zone.id} className="hover:bg-opacity-75">
+                          <TableCell className="font-medium">
+                            <div className="flex items-center">
+                              <div 
+                                className="w-3 h-3 rounded-full mr-2" 
+                                style={{ backgroundColor: ZONE_COLORS[index % ZONE_COLORS.length] }}
+                              />
+                              {zone.name}
+                            </div>
+                          </TableCell>
                           <TableCell>${zone.totalSales.toLocaleString()}</TableCell>
                           <TableCell>{zone.dealersCount}</TableCell>
                           <TableCell>
