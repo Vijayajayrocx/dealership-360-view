@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -27,7 +28,8 @@ const LoginPage = () => {
     // Simulate API call
     setTimeout(() => {
       if (email && password) {
-        login(email);
+        // Pass both email and password to the login function
+        login(email, password);
         toast({
           title: "Login successful",
           description: "Welcome to the Ford Dealer Dashboard",
@@ -56,7 +58,7 @@ const LoginPage = () => {
           <img 
             src="https://www.svgrepo.com/show/374006/ford.svg" 
             alt="Ford Logo" 
-            className="h-12"
+            className="h-12 w-auto"
           />
         </div>
         <h1 className="text-3xl font-bold text-ds-primary-800">Ford Dealer Dashboard</h1>
@@ -106,7 +108,7 @@ const LoginPage = () => {
                       variant="ghost"
                       size="sm"
                       onClick={toggleShowPassword}
-                      className="absolute right-0 top-0 h-full"
+                      className="absolute right-0 top-0 h-full px-3"
                     >
                       {showPassword ? (
                         <EyeOff className="h-4 w-4" />
