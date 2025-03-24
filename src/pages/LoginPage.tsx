@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -21,20 +20,23 @@ const LoginPage = () => {
   const { login } = useAuth();
   const { toast } = useToast();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
       if (email && password) {
-        // Pass both email and password to the login function
-        login(email, password);
+        // Pass both email and password to the login function as expected by AuthContext
+        await login(email, password);
+        
         toast({
           title: "Login successful",
           description: "Welcome to the Ford Dealer Dashboard",
-          variant: "default",
         });
+        
         navigate('/dashboard');
       } else {
         toast({
@@ -43,8 +45,16 @@ const LoginPage = () => {
           variant: "destructive",
         });
       }
+    } catch (error) {
+      console.error('Login error:', error);
+      toast({
+        title: "Login failed",
+        description: typeof error === 'string' ? error : "An error occurred during login",
+        variant: "destructive",
+      });
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   const toggleShowPassword = () => {
