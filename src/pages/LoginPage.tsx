@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -32,7 +31,7 @@ const LoginPage = () => {
         toast({
           title: "Login successful",
           description: "Welcome to the Ford Dealer Dashboard",
-          variant: "success",
+          variant: "default",
         });
         navigate('/dashboard');
       } else {

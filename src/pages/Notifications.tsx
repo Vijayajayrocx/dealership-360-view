@@ -56,7 +56,7 @@ const Notifications = () => {
       <div className="bg-gradient-to-r from-ds-primary-50 to-ds-primary-100 p-6 rounded-lg mb-6">
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold text-ds-primary-800">Notifications</h1>
-          <Badge variant="success" className="text-ds-success-800 bg-ds-success-100 hover:bg-ds-success-200">
+          <Badge variant="success-light" className="text-ds-success-800">
             {notifications.filter(n => !n.read).length} Unread
           </Badge>
         </div>

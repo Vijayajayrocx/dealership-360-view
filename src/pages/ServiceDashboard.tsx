@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -42,9 +41,6 @@ const ServiceDashboard = () => {
     { type: 'Accident Repairs', count: 85, percentage: 10, color: "#F8B94A" }, // bright orange
     { type: 'Others', count: 50, percentage: 6, color: "#6C6D76" }, // gray
   ];
-
-  // Color palette for charts
-  const colorPalette = ['#4787EC', '#47C18C', '#F8B94A', '#E54D4D', '#9747EC'];
 
   // Filter service centers by zone
   const filteredServiceCenters = selectedZone === 'all'
@@ -250,9 +246,9 @@ const ServiceDashboard = () => {
                       <TableCell>{center.rating} / 5</TableCell>
                       <TableCell>
                         {center.rating >= 4.5 ? (
-                          <Badge variant="success">Premium</Badge>
+                          <Badge variant="primary">Premium</Badge>
                         ) : center.rating >= 4.0 ? (
-                          <Badge variant="info">Standard</Badge>
+                          <Badge variant="primary-light">Standard</Badge>
                         ) : (
                           <Badge variant="outline">Basic</Badge>
                         )}
