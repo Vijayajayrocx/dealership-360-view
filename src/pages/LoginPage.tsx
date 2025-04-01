@@ -36,11 +36,6 @@ const LoginPage = () => {
       // Pass both email and password to the login function as expected by AuthContext
       await login(email, password);
       
-      toast({
-        title: "Login successful",
-        description: "Welcome to the Ford Dealer Dashboard",
-      });
-      
       // The navigation to dashboard will happen in the AuthContext
     } catch (error) {
       console.error('Login error:', error);
@@ -112,8 +107,8 @@ const LoginPage = () => {
           <img 
             src="https://www.svgrepo.com/show/374006/ford.svg" 
             alt="Ford Logo" 
-            className="h-12 w-12"
-            style={{filter: 'invert(0%) sepia(0%) saturate(0%) hue-rotate(324deg) brightness(96%) contrast(104%)'}}
+            className="w-12 h-12"
+            style={{ filter: 'brightness(0%)' }}
           />
         </div>
         <h1 className="text-3xl font-bold text-ds-primary-800">Ford Dealer Dashboard</h1>

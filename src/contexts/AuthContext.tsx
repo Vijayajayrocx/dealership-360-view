@@ -87,8 +87,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   // Redirect to login if not authenticated
   useEffect(() => {
-    if (!isLoading && !user && location.pathname !== "/login") {
-      navigate("/login");
+    if (!isLoading) {
+      if (!user && location.pathname !== "/login" && location.pathname !== "/") {
+        navigate("/login");
+      } else if (user && location.pathname === "/login") {
+        // If user is authenticated and on login page, redirect to dashboard
+        navigate("/dashboard");
+      }
     }
   }, [isLoading, user, location.pathname, navigate]);
 
@@ -114,7 +119,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           
           setRequiresTwoFactor(false);
           setPendingLogin(null);
-          navigate("/dashboard");
+          
+          // Ensure navigation happens after state updates
+          setTimeout(() => {
+            navigate("/dashboard");
+          }, 100);
+          
           return;
         }
       }
@@ -150,7 +160,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             description: `Welcome back, ${foundUser.name}!`,
           });
           
-          navigate("/dashboard");
+          // Ensure navigation happens after state updates
+          setTimeout(() => {
+            navigate("/dashboard");
+          }, 100);
+          
           return;
         }
       }
@@ -183,7 +197,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         
         setRequiresTwoFactor(false);
         setPendingLogin(null);
-        navigate("/dashboard");
+        
+        // Ensure navigation happens after state updates
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 100);
       }
     } catch (error) {
       toast({
